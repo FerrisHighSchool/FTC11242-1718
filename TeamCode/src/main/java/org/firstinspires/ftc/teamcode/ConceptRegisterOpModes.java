@@ -75,9 +75,8 @@ public class ConceptRegisterOpModes
         // Un-comment any line to enable that sample.
         // Or add your own lines to register your Team opmodes.
 
-        manager.register("Teleop ")
-
         // Basic Templates
+            manager.register("Motor Test",            MotorTest.class);
         // manager.register("Iterative Opmode",       BasicOpMode_Iterative.class);
         // manager.register("Linear Opmode",          BasicOpMode_Linear.class);
 
