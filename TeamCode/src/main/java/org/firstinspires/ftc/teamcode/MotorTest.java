@@ -50,7 +50,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @TeleOp(name="Pushbot: Teleop Tank", group="Pushbot")
-@Disabled
+// @Disabled
 public class MotorTest extends OpMode{
 
     /* Declare OpMode members. */
