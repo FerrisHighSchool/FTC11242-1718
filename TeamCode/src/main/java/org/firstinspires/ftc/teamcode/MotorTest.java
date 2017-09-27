@@ -100,8 +100,8 @@ public class MotorTest extends OpMode{
         double right;
 
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-        left = -gamepad1.left_stick_y;
-        right = -gamepad1.right_stick_y;
+        left = gamepad1.left_stick_y;
+        right =gamepad1.right_stick_y;
 
         robot.leftMotor.setPower(left);
         robot.rightMotor.setPower(right);
