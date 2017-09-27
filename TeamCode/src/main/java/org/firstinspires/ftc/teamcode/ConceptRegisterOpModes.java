@@ -76,7 +76,7 @@ public class ConceptRegisterOpModes
         // Or add your own lines to register your Team opmodes.
 
         // Basic Templates
-            manager.register("Motor Test",            MotorTest.class);
+            manager.register("Gage/Rafael",            MotorTest.class);
         // manager.register("Iterative Opmode",       BasicOpMode_Iterative.class);
         // manager.register("Linear Opmode",          BasicOpMode_Linear.class);
 
