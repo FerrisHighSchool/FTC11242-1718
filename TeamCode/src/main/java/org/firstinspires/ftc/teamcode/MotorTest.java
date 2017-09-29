@@ -53,8 +53,8 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Gage/Rafael", group="Pushbot")
-@Disabled
+@TeleOp(name="Rafael", group="Pushbot")
+// @Disabled
 public class MotorTest extends OpMode{
 
     /* Declare OpMode members. */
@@ -100,11 +100,22 @@ public class MotorTest extends OpMode{
         double right;
 
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-        left = gamepad1.left_stick_y;
+        /*left = gamepad1.left_stick_y;
         right = gamepad1.right_stick_y;
 
         robot.leftMotor.setPower(left);
-        robot.rightMotor.setPower(right);
+        robot.rightMotor.setPower(right);*/
+
+        double throttle =  -gamepad1.left_stick_y;
+        double turn = -gamepad1.right_stick_x;
+        double leftPower = throttle + turn;
+        double rightPower = throttle - turn;
+
+        leftPower = Range.clip(leftPower, -1, 1);
+        rightPower = Range.clip(rightPower, -1, 1);
+
+        robot.leftMotor.setPower(-leftPower);
+        robot.rightMotor.setPower(rightPower);
 
         // Use gamepad left & right Bumpers to open and close the claw
 //        if (gamepad1.right_bumper)
@@ -127,8 +138,8 @@ public class MotorTest extends OpMode{
 
         // Send telemetry message to signify robot running;
 //        telemetry.addData("claw",  "Offset = %.2f", clawOffset);
-        telemetry.addData("left",  "%.2f", left);
-        telemetry.addData("right", "%.2f", right);
+        /*telemetry.addData("left",  "%.2f", left);
+        telemetry.addData("right", "%.2f", right);*/
     }
 
     /*
