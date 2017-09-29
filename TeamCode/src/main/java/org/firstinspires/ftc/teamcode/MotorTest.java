@@ -106,8 +106,8 @@ public class MotorTest extends OpMode{
         robot.leftMotor.setPower(left);
         robot.rightMotor.setPower(right);*/
 
-        double throttle =  -gamepad1.left_stick_y;
-        double turn = -gamepad1.right_stick_x;
+        double throttle =  gamepad1.right_stick_x;
+        double turn = -gamepad1.left_stick_y;
         double leftPower = throttle + turn;
         double rightPower = throttle - turn;
 
