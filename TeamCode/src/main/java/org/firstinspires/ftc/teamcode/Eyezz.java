@@ -27,6 +27,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.firstinspires.ftc.teamcode;
+/**
+ * Recreated by nerdxoverboard on 11/17/2017.
+ */
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -136,8 +139,8 @@ public class Eyezz extends LinearOpMode {
         relicTrackables.activate();
 
         while (opModeIsActive()) {
-               waitForStart();
-               // drive(1,1);
+            waitForStart();
+            // drive(1,1);
             telemetry.update();
             sleep(200);
             /**
@@ -198,7 +201,7 @@ public class Eyezz extends LinearOpMode {
 
                 telemetry.addData("VuMark", "not visible");
             }
-                sleep(100);
+            sleep(100);
             telemetry.update();
         }
     }
@@ -215,7 +218,7 @@ public class Eyezz extends LinearOpMode {
     public void drive(double left, double right) throws InterruptedException {
         int newRightTarget;
         if (opModeIsActive()) {
-           sleep(250);
+            sleep(250);
             leftMotor.setPower(left);
             rightMotor.setPower(-right);
 

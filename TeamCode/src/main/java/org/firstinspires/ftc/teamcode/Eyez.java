@@ -27,6 +27,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.firstinspires.ftc.teamcode;
+/**
+ * Recreated by nerdxoverboard on 11/17/2017.
+ */
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -137,8 +140,8 @@ public class Eyez extends LinearOpMode {
         relicTrackables.activate();
 
         while (opModeIsActive()) {
-               waitForStart();
-                drive(1,1);
+            waitForStart();
+            drive(1,1);
             sleep(200);
             /**
              * See if any of the instances of {@link relicTemplate} are currently visible.
@@ -148,8 +151,8 @@ public class Eyez extends LinearOpMode {
              */
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-             // /*
-               if (vuMark == RelicRecoveryVuMark.LEFT){
+                // /*
+                if (vuMark == RelicRecoveryVuMark.LEFT){
                     waitForStart();
                     drive(-1,-1);
                     sleep(100);
@@ -164,7 +167,7 @@ public class Eyez extends LinearOpMode {
                     turnAt(1,0);
                     sleep(100);
                 }
-               //    */
+                //    */
 
                 /* Found an instance of the template. In the actual game, you will probably
                  * loop until this condition occurs, then move on to act accordingly depending
@@ -198,7 +201,7 @@ public class Eyez extends LinearOpMode {
 
                 telemetry.addData("VuMark", "not visible");
             }
-                sleep(100);
+            sleep(100);
             telemetry.update();
         }
     }
@@ -215,7 +218,7 @@ public class Eyez extends LinearOpMode {
     public void drive(double left, double right) throws InterruptedException {
         int newRightTarget;
         if (opModeIsActive()) {
-           sleep(250);
+            sleep(250);
             leftMotor.setPower(left);
             rightMotor.setPower(-right);
 
