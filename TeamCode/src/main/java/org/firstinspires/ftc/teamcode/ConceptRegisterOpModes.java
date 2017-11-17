@@ -76,13 +76,8 @@ public class ConceptRegisterOpModes
         // Or add your own lines to register your Team opmodes.
 
         // Basic Templates//
-        manager.register("1 ?",                 AutonomousJ.class);
-        manager.register("2 ?",                 Calub.class);
-        manager.register("3 ?",                 Eyez.class);
-        manager.register("4 ?",                 Eyezz.class);
-        manager.register("5 ?",                 Eyez.class);
+        manager.register("Red: One",            AutonomousJ.class);
         manager.register("Gage/Rafael",         MotorTest.class);
-        manager.register("6 ?",                 Tred.class);
         // manager.register("Iterative Opmode",       BasicOpMode_Iterative.class);
         // manager.register("Linear Opmode",          BasicOpMode_Linear.class);
 

@@ -25,7 +25,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 
 
-@Autonomous(name = "Autonomous 1", group = "Relic")
+@Autonomous(name = "Red: One", group = "Relic")
 
 //@Disabled <-- Keep commented unless this Opmode is not in use
 
@@ -34,9 +34,9 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 public class AutonomousJ extends LinearOpMode {
 
 
-    DcMotor leftMotor,         // Left Drive Wheel
+    DcMotor leftMotor,  // Left Drive Wheel
 
-    rightMotor;        // Right Drive Wheel
+    rightMotor;      // Right Drive Wheel
 
     static final double COUNTS_PER_MOTOR_REV = 1120;  // For NeveRest 40 Gearmotor Encoder
 
@@ -66,8 +66,11 @@ public class AutonomousJ extends LinearOpMode {
 
         // Beginning Part 1 of Autonomous Mode
 
-        drive(); // Drive forward at half speed
+        leftMotor.setPower(0.5); // Drive forward at half speed
+        rightMotor.setPower(0.5); // Drive forward at half speed
         sleep(4500);
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
         //turnAt(90, .5);
     }
 
