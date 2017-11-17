@@ -77,7 +77,7 @@ public class ConceptRegisterOpModes
 
         // Basic Templates//
         manager.register("Red: One",            AutonomousJ.class);
-        manager.register("Gage/Rafael",         MotorTest.class);
+        manager.register("Tred",         MotorTest.class);
         // manager.register("Iterative Opmode",       BasicOpMode_Iterative.class);
         // manager.register("Linear Opmode",          BasicOpMode_Linear.class);
 

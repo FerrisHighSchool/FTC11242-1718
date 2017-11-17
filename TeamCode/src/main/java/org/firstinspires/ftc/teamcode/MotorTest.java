@@ -54,7 +54,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @TeleOp(name="Gage/Rafael", group="Pushbot")
-// @Disabled
+@Disabled
 public class MotorTest extends OpMode{
 
     /* Declare OpMode members. */

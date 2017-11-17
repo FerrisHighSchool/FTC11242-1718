@@ -52,7 +52,7 @@ import java.*;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name=" Linear OpMode/Tred", group="Linear Opmode")
+@TeleOp(name="Tred", group="Linear Opmode")
 
 public class Tred extends LinearOpMode {
 

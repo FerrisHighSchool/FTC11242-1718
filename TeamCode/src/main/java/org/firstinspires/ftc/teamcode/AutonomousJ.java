@@ -25,7 +25,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 
 
-@Autonomous(name = "Red: One", group = "Relic")
+@Autonomous(name = "Red: One", group = "Autonomous")
 
 //@Disabled <-- Keep commented unless this Opmode is not in use
 
