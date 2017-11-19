@@ -55,7 +55,8 @@ public class AutonomousJ extends LinearOpMode {
 
         leftMotor  = hardwareMap.get(DcMotor.class, "left_drive");
         rightMotor = hardwareMap.get(DcMotor.class, "right_drive");
-
+        leftTred = hardwareMap.get(DcMotor.class, "left_tred");
+        rightTred = hardwareMap.get(DcMotor.class, "right_tred");
 
         waitForStart();
 
@@ -67,18 +68,19 @@ public class AutonomousJ extends LinearOpMode {
 
         // Beginning Part 1 of Autonomous Mode
 
-        leftMotor.setPower(-0.25); // drive forward at quarter speed, negated to spin correct direction
-        rightMotor.setPower(0.25); // drive forward at quarter speed
-        sleep(1250);
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
+        leftMotor.setPower(-0.25); // drive forward at quarter speed, negated to spin correct direction.
+        rightMotor.setPower(0.25); // drive forward at quarter speed.
+        sleep(1250); // sleep after 1.25 seconds.
+        leftMotor.setPower(0); // kill power to left motor.
+        rightMotor.setPower(0); // kill power to right motor.
 
-        leftTred.setPower(-0.25); // drive forward at quarter speed
-        rightTred.setPower(0.25); // drive forward at quarter speed
-        sleep(1250);
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
-        //turnAt(90, .5);
+        // Part 2 of Autonomous Mode
+
+        leftTred.setPower(-0.25); // move up at quarter speed, negated to spin correct direction.
+        rightTred.setPower(0.25); // move up at quarter speed.
+        sleep(1000); // sleep after 1 second.
+        leftTred.setPower(0); // kill power to left tread.
+        rightTred.setPower(0); // kill power to right tread.
     }
 
 
@@ -107,7 +109,7 @@ public class AutonomousJ extends LinearOpMode {
         if (opModeIsActive()) {
 
 
-            leftMotor.setPower(-1);
+            leftMotor.setPower(1);
 
             rightMotor.setPower(1);
 
