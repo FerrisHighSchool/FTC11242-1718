@@ -76,8 +76,8 @@ public class AutonomousEyes extends LinearOpMode {
     public static final String TAG = "Vuforia VuMark Sample";
 
     OpenGLMatrix lastLocation = null;
-    DcMotor leftMotor,       // Left Drive Wheel
-            rightMotor;
+    DcMotor leftMotor,      // Left Drive Wheel
+            rightMotor,     // right drive wheel
             leftTred,       // left tread
             rightTred;      // right tread
 
@@ -151,16 +151,39 @@ public class AutonomousEyes extends LinearOpMode {
 
         while (opModeIsActive()) {
             waitForStart();
-            // drive(1,1);
+            telemetry.addData("Status", "Driving");
+
+            telemetry.update();
+
+            // ADD SERVO INSTRUCTIONS HERE
+            // ADD COLOR SENSOR
+
+            // Beginning Part 1 of Autonomous Mode
+
+            // else if statements for paths
+
+            leftMotor.setPower(-0.25); // drive forward at quarter speed
+            rightMotor.setPower(0.25); // drive forward at quarter speed
+            sleep(1250); // stop after one second
+            leftMotor.setPower(0); // stop left motor
+            rightMotor.setPower(0); // stop right motor
+
+            leftTred.setPower(-0.25); //  treads move up at quarter speed
+            rightTred.setPower(0.25); // treads move up at quarter speed
+            sleep(1000); // stop after one second
+            leftTred.setPower(0); // stop left tread
+            rightTred.setPower(0); //stop right tread
             telemetry.update();
             sleep(200);
+
+
             /**
              * See if any of the instances of {@link relicTemplate} are currently visible.
              * {@link RelicRecoveryVuMark} is an enum which can have the following values:
              * UNKNOWN, LEFT, CENTER, and RIGHT. When a VuMark is visible, something other than
              * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
              */
-            /*
+
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
                 if (vuMark == RelicRecoveryVuMark.LEFT){
@@ -178,7 +201,7 @@ public class AutonomousEyes extends LinearOpMode {
                     turnAt(1,0);
                     sleep(100);
                 }
-                */
+
                 /* Found an instance of the template. In the actual game, you will probably
                  * loop until this condition occurs, then move on to act accordingly depending
                  * on which VuMark was visible. */
@@ -229,11 +252,6 @@ public class AutonomousEyes extends LinearOpMode {
         int newRightTarget;
         if (opModeIsActive()) {
             sleep(250);
-            leftMotor.setPower(left);
-            rightMotor.setPower(-right);
-
-            leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
             sleep(250);
