@@ -71,14 +71,23 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 @Autonomous(name="Concept: VuMark Id 11", group ="Concept")
 //@Disabled
-public class Eyezz extends LinearOpMode {
+public class AutonomousEyes extends LinearOpMode {
 
     public static final String TAG = "Vuforia VuMark Sample";
 
     OpenGLMatrix lastLocation = null;
-    DcMotor leftMotor,         // Left Drive Wheel
+    DcMotor leftMotor,       // Left Drive Wheel
+            rightMotor;
+            leftTred,       // left tread
+            rightTred;      // right tread
 
-    rightMotor;
+    static final double COUNTS_PER_MOTOR_REV = 1120;  // For NeveRest 40 Gearmotor Encoder
+
+    static final double WHEEL_DIAMETER_INCHES = 4.25;  // For figuring circumference
+
+    static final double COUNTS_PER_INCH = COUNTS_PER_MOTOR_REV /
+
+            (WHEEL_DIAMETER_INCHES * 3.1415); // About 83.89 ticks per inch
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
@@ -88,6 +97,8 @@ public class Eyezz extends LinearOpMode {
     @Override public void runOpMode() throws InterruptedException {
         leftMotor  = hardwareMap.get(DcMotor.class, "left_drive");
         rightMotor = hardwareMap.get(DcMotor.class, "right_drive");
+        leftTred = hardwareMap.get(DcMotor.class, "left_tred");
+        rightTred = hardwareMap.get(DcMotor.class, "right_tred");
 
         /*
          * To start up Vuforia, tell it the view that we wish to use for camera monitor (on the RC phone);
@@ -149,10 +160,10 @@ public class Eyezz extends LinearOpMode {
              * UNKNOWN, LEFT, CENTER, and RIGHT. When a VuMark is visible, something other than
              * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
              */
+            /*
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-              /*
-               if (vuMark == RelicRecoveryVuMark.LEFT){
+                if (vuMark == RelicRecoveryVuMark.LEFT){
                     waitForStart();
                     drive(-1,-1);
                     sleep(100);
@@ -167,8 +178,7 @@ public class Eyezz extends LinearOpMode {
                     turnAt(1,0);
                     sleep(100);
                 }
-               //    */
-
+                */
                 /* Found an instance of the template. In the actual game, you will probably
                  * loop until this condition occurs, then move on to act accordingly depending
                  * on which VuMark was visible. */

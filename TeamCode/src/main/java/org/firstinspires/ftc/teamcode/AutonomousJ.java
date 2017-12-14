@@ -25,7 +25,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 
 
-@Autonomous(name = "Red: One", group = "Autonomous")
+@Autonomous(name = "Red: One", group = "Concept")
 
 //@Disabled <-- Keep commented unless this Opmode is not in use
 
@@ -34,9 +34,10 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 public class AutonomousJ extends LinearOpMode {
 
 
-    DcMotor leftMotor,  // Left Drive Wheel
-
-    rightMotor;      // Right Drive Wheel
+    DcMotor leftMotor,  // left drive wheel
+            rightMotor, // right drive wheel
+            leftTred,   // left tread
+            rightTred;  // right tread
 
     static final double COUNTS_PER_MOTOR_REV = 1120;  // For NeveRest 40 Gearmotor Encoder
 
@@ -54,7 +55,8 @@ public class AutonomousJ extends LinearOpMode {
 
         leftMotor  = hardwareMap.get(DcMotor.class, "left_drive");
         rightMotor = hardwareMap.get(DcMotor.class, "right_drive");
-
+        leftTred = hardwareMap.get(DcMotor.class, "left_tred");
+        rightTred = hardwareMap.get(DcMotor.class, "right_tred");
 
         waitForStart();
 
@@ -66,12 +68,17 @@ public class AutonomousJ extends LinearOpMode {
 
         // Beginning Part 1 of Autonomous Mode
 
-        leftMotor.setPower(0.5); // Drive forward at half speed
-        rightMotor.setPower(0.5); // Drive forward at half speed
-        sleep(4500);
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
-        //turnAt(90, .5);
+        leftMotor.setPower(-0.25); // drive forward at quarter speed
+        rightMotor.setPower(0.25); // drive forward at quarter speed
+        sleep(1250); // stop after one second
+        leftMotor.setPower(0); // stop left motor
+        rightMotor.setPower(0); // stop right motor
+
+        leftTred.setPower(-0.25); //  treads move up at quarter speed
+        rightTred.setPower(0.25); // treads move up at quarter speed
+        sleep(1000); // stop after one second
+        leftTred.setPower(0); // stop left tread
+        rightTred.setPower(0); //stop right tread
     }
 
 
@@ -100,7 +107,7 @@ public class AutonomousJ extends LinearOpMode {
         if (opModeIsActive()) {
 
 
-            leftMotor.setPower(-1);
+            leftMotor.setPower(1);
 
             rightMotor.setPower(1);
 

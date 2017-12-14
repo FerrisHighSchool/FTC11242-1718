@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
  * Recreated by nerdxoverboard on 11/17/2017.
  */
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -53,7 +54,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @TeleOp(name=" Linear OpMode", group="Linear Opmode")
-
+@Disabled
 public class Calub extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();

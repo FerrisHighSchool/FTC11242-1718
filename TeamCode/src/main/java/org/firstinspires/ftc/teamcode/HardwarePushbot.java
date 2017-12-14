@@ -58,6 +58,8 @@ public class HardwarePushbot
     /* Public OpMode members. */
     public DcMotor  leftMotor   = null;
     public DcMotor  rightMotor = null;
+    public DcMotor  leftTred  = null;
+    public DcMotor  rightTred = null;
    /* public DcMotor  leftArm     = null;
     public Servo    leftClaw    = null;
     public Servo    rightClaw   = null; */
@@ -84,6 +86,9 @@ public class HardwarePushbot
         leftMotor = hwMap.get(DcMotor.class, "left_drive");
         rightMotor = hwMap.get(DcMotor.class, "right_drive");
         // leftArm    = hwMap.get(DcMotor.class, "left_arm");
+        rightTred = hwMap.get(DcMotor.class, "right_tred");
+        leftTred = hwMap.get(DcMotor.class, "left_tred");
+
         leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 

@@ -69,8 +69,8 @@ public class Tred extends LinearOpMode {
 
         leftMotor = hardwareMap.get(DcMotor.class, "left_drive");
         rightMotor = hardwareMap.get(DcMotor.class, "right_drive");
-        leftTred = hardwareMap.get(DcMotor.class, "left_Tred");
-        rightTred = hardwareMap.get(DcMotor.class, "right_Tred");
+        leftTred = hardwareMap.get(DcMotor.class, "left_tred");
+        rightTred = hardwareMap.get(DcMotor.class, "right_tred");
 
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         rightMotor.setDirection(DcMotor.Direction.FORWARD);

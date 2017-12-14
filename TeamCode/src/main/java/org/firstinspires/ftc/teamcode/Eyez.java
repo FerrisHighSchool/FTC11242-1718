@@ -32,7 +32,6 @@ package org.firstinspires.ftc.teamcode;
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -70,7 +69,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * is explained in {@link ConceptVuforiaNavigation}.
  */
 
-@Autonomous(name="Concept: VuMark Id", group ="Concept")
+@Autonomous(name="Concept: VuMark Id 11", group ="Concept")
 @Disabled
 public class Eyez extends LinearOpMode {
 
@@ -141,7 +140,8 @@ public class Eyez extends LinearOpMode {
 
         while (opModeIsActive()) {
             waitForStart();
-            drive(1,1);
+            // drive(1,1);
+            telemetry.update();
             sleep(200);
             /**
              * See if any of the instances of {@link relicTemplate} are currently visible.
@@ -151,8 +151,7 @@ public class Eyez extends LinearOpMode {
              */
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-                // /*
-                if (vuMark == RelicRecoveryVuMark.LEFT){
+               if (vuMark == RelicRecoveryVuMark.LEFT){
                     waitForStart();
                     drive(-1,-1);
                     sleep(100);
@@ -167,7 +166,6 @@ public class Eyez extends LinearOpMode {
                     turnAt(1,0);
                     sleep(100);
                 }
-                //    */
 
                 /* Found an instance of the template. In the actual game, you will probably
                  * loop until this condition occurs, then move on to act accordingly depending
