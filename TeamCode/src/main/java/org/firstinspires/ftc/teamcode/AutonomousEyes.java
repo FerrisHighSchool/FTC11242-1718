@@ -76,7 +76,7 @@ public class AutonomousEyes extends LinearOpMode {
     public static final String TAG = "Vuforia VuMark Sample";
 
     OpenGLMatrix lastLocation = null;
-    DcMotor leftMotor,      // Left Drive Wheel
+    DcMotor leftMotor,      // left drive wheel
             rightMotor,     // right drive wheel
             leftTred,       // left tread
             rightTred;      // right tread
@@ -158,24 +158,6 @@ public class AutonomousEyes extends LinearOpMode {
             // ADD SERVO INSTRUCTIONS HERE
             // ADD COLOR SENSOR
 
-            // Beginning Part 1 of Autonomous Mode
-
-            // else if statements for paths
-
-            leftMotor.setPower(-0.25); // drive forward at quarter speed
-            rightMotor.setPower(0.25); // drive forward at quarter speed
-            sleep(1250); // stop after one second
-            leftMotor.setPower(0); // stop left motor
-            rightMotor.setPower(0); // stop right motor
-
-            leftTred.setPower(-0.25); //  treads move up at quarter speed
-            rightTred.setPower(0.25); // treads move up at quarter speed
-            sleep(1000); // stop after one second
-            leftTred.setPower(0); // stop left tread
-            rightTred.setPower(0); //stop right tread
-            telemetry.update();
-            sleep(200);
-
 
             /**
              * See if any of the instances of {@link relicTemplate} are currently visible.
@@ -188,17 +170,26 @@ public class AutonomousEyes extends LinearOpMode {
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
                 if (vuMark == RelicRecoveryVuMark.LEFT){
                     waitForStart();
-                    drive(-1,-1);
-                    sleep(100);
+                    leftMotor.setPower(-0.25); // drive forward at quarter speed
+                    rightMotor.setPower(0.25); // drive forward at quarter speed
+                    sleep(1250); // stop after 1.25 seconds
+                    leftMotor.setPower(0); // stop left motor
+                    rightMotor.setPower(0); // stop right motor
+
+                    leftTred.setPower(-0.25); //  treads move up at quarter speed
+                    rightTred.setPower(0.25); // treads move up at quarter speed
+                    sleep(1000); // stop after one second
+                    leftTred.setPower(0); // stop left tread
+                    rightTred.setPower(0); //stop right tread
                 }
                 else if (vuMark == RelicRecoveryVuMark.RIGHT){
                     waitForStart();
-                    drive(1,-1);
+                    drive(-1,-1);
                     sleep(100);
                 }
                 else if (vuMark == RelicRecoveryVuMark.CENTER){
                     waitForStart();
-                    turnAt(1,0);
+                    drive(1,1);
                     sleep(100);
                 }
 
@@ -252,10 +243,6 @@ public class AutonomousEyes extends LinearOpMode {
         int newRightTarget;
         if (opModeIsActive()) {
             sleep(250);
-
-
-            sleep(250);
-
         }
 
     }
