@@ -89,15 +89,24 @@ public class Tred extends LinearOpMode {
             double tred;
             boolean positivePower;
             boolean negativePower;
-
+            boolean popLock;
 
             double drive = -gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x;
 
 
-
+            popLock = gamepad1.a;
             positivePower = gamepad1.dpad_up;
             negativePower = gamepad1.dpad_down;
+
+            if (popLock == true) {
+                leftMotor.setPower(-1);
+                rightMotor.setPower(-1);
+                sleep(500);
+                leftMotor.setPower(1);
+                rightMotor.setPower(1);
+                sleep(750);
+            }
 
             if(positivePower == true){
                 leftTred.setPower(1);

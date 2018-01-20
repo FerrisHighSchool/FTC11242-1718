@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import java.lang.InterruptedException;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaNavigation;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -21,14 +19,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-import java.io.IOException;
-import java.io.InterruptedIOException;
-
 /**
  * Created by hsuser01 on 1/17/2018.
  */
 
-public class CameraOne {
+public class CameraUno {
     /**
      * This OpMode illustrates the basics of using the Vuforia engine to determine
      * the identity of Vuforia VuMarks encountered on the field. The code is structured as
@@ -47,7 +42,7 @@ public class CameraOne {
      * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
      * is explained in {@link ConceptVuforiaNavigation}.
      */
-    @Autonomous(name="Crimson 1", group ="Concept")
+    @Autonomous(name="Cobalt 1", group ="Concept")
     //@Disabled
     public static class ConceptVuMarkIdentification extends LinearOpMode {
         DcMotor leftMotor,  // left drive wheel
@@ -124,7 +119,7 @@ public class CameraOne {
                 RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
                     if (vuMark == RelicRecoveryVuMark.LEFT) {
-                        drive(1500);
+                        reverse(1500);
                         turnRight(1100);
                         stopp(1000);
                         turnLeft(500);
@@ -135,17 +130,17 @@ public class CameraOne {
                         stop();
                     }
                     if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                        drive(1500);
+                        reverse(1500);
                         turnRight(1100);
-                        turnRight(500);
                         stopp(1000);
+                        turnRight(500);
                         driveslow(500);
                         release(1000);
                         reverse(1000);
                         drive(600);
                         stop();
                     }  if (vuMark == RelicRecoveryVuMark.CENTER) {
-                        drive(1500);
+                        reverse(1500);
                         turnRight(1100);
                         stopp(1000);
                         driveslow(500);
@@ -175,10 +170,7 @@ public class CameraOne {
                     }
 
                 } else {
-                    /*drive(750);
-                    stopp(5000);//good
-                    stop();
-                    */
+
                     telemetry.addData("VuMark", "not visible");
                 }
 
