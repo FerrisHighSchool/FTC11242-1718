@@ -133,7 +133,7 @@ public class CameraUno {
                         reverse(1500);
                         turnRight(1100);
                         stopp(1000);
-                        turnRight(500);
+
                         driveslow(500);
                         release(1000);
                         reverse(1000);

@@ -124,7 +124,7 @@ public class CameraOne {
                 RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
                     if (vuMark == RelicRecoveryVuMark.LEFT) {
-                        drive(1500);
+                        drive(1200);
                         turnRight(1100);
                         stopp(1000);
                         turnLeft(500);
@@ -135,9 +135,9 @@ public class CameraOne {
                         stop();
                     }
                     if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                        drive(1500);
+                        drive(1200);
                         turnRight(1100);
-                        turnRight(500);
+                        turnRight(300);
                         stopp(1000);
                         driveslow(500);
                         release(1000);
@@ -145,7 +145,7 @@ public class CameraOne {
                         drive(600);
                         stop();
                     }  if (vuMark == RelicRecoveryVuMark.CENTER) {
-                        drive(1500);
+                        drive(1200);
                         turnRight(1100);
                         stopp(1000);
                         driveslow(500);
