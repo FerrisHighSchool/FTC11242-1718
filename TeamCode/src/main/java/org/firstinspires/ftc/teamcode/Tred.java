@@ -44,7 +44,7 @@ import java.*;
  * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
  * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
  * class is instantiated on the Robot Controller and executed.
- *
+ *1`34
  * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
  * It includes all the skeletal structure that all linear OpModes contain.
  *
@@ -95,18 +95,18 @@ public class Tred extends LinearOpMode {
             double turn = gamepad1.right_stick_x;
 
 
-            popLock = gamepad1.a;
+            //popLock = gamepad1.a;
             positivePower = gamepad1.dpad_up;
             negativePower = gamepad1.dpad_down;
 
-            if (popLock == true) {
+            /*if (popLock == true) {
                 leftMotor.setPower(-1);
                 rightMotor.setPower(-1);
                 sleep(500);
                 leftMotor.setPower(1);
                 rightMotor.setPower(1);
                 sleep(750);
-            }
+            }*/
 
             if(positivePower == true){
                 leftTred.setPower(1);
