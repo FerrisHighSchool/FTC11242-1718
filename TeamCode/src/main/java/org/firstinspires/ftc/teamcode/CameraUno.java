@@ -130,7 +130,7 @@ public class CameraUno {
                         stop();
                     }
                     if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                        reverse(1500);
+                        reverse(1700);
                         turnRight(1100);
                         stopp(1000);
 

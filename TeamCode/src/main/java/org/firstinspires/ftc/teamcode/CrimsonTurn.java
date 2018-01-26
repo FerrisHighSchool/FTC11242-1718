@@ -25,10 +25,10 @@ import java.io.IOException;
 import java.io.InterruptedIOException;
 
 /**
- * Created by hsuser01 on 1/17/2018.
+ * Created by nerdxoverboard on 1/26/2018.
  */
 
-public class CameraOne {
+public class CrimsonTurn {
     /**
      * This OpMode illustrates the basics of using the Vuforia engine to determine
      * the identity of Vuforia VuMarks encountered on the field. The code is structured as
@@ -47,7 +47,7 @@ public class CameraOne {
      * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
      * is explained in {@link ConceptVuforiaNavigation}.
      */
-    @Autonomous(name="Crimson 1", group ="Concept")
+    @Autonomous(name="Crimson: Turn", group ="Concept")
     //@Disabled
     public static class ConceptVuMarkIdentification extends LinearOpMode {
         DcMotor leftMotor,  // left drive wheel
@@ -125,9 +125,9 @@ public class CameraOne {
                 if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
                     if (vuMark == RelicRecoveryVuMark.LEFT) {
                         drive(1200);
-                        turnRight(1100);
+                        turnAt(90, 1);
                         stopp(1000);
-                        turnLeft(500);
+                        turnAt(-90, 1);
                         driveslow(500);
                         release(1000);
                         reverse(1000);
@@ -136,7 +136,7 @@ public class CameraOne {
                     }
                     if (vuMark == RelicRecoveryVuMark.CENTER) {
                         drive(1200);
-                        turnRight(1100);
+                        turnAt(-90, 1);
                         stopp(1000);
                         driveslow(500);
                         release(1000);
@@ -146,7 +146,7 @@ public class CameraOne {
                     }
                     if (vuMark == RelicRecoveryVuMark.RIGHT) {
                         drive(1250);
-                        turnRight(1250);
+                        turnAt(90, 1);
                         stopp(1000);
                         driveslow(250);
                         release(1000);
@@ -196,23 +196,17 @@ public class CameraOne {
             }
         }
 
-        public void turnRight(int time) throws InterruptedException {
-            if (opModeIsActive()) {
-                leftMotor.setPower(-.25);
-                rightMotor.setPower(-.25);
-                sleep(time);
+        static final double COUNTS_PER_MOTOR_REV = 1120;
+        static final double COUNTS_PER_INCH = COUNTS_PER_MOTOR_REV;
+        public void turnAt(double angle, double speed) throws InterruptedException {
+            int leftMotorPosition = leftMotor.getCurrentPosition();
+            int newAngleTarget = leftMotor.getCurrentPosition() + (int) (turnAtAngle(angle) * COUNTS_PER_INCH); }
 
-            }
+
+        public double turnAtAngle(double angle) {
+            double inchesToTurn = (angle * (Math.PI / 180) * 18);
+            return inchesToTurn;
         }
-        public void turnLeft(int time) throws InterruptedException {
-            if (opModeIsActive()) {
-                leftMotor.setPower(.25);
-                rightMotor.setPower(.25);
-                sleep(time);
-
-            }
-        }
-
 
         public void drive(int time) throws InterruptedException {
 
