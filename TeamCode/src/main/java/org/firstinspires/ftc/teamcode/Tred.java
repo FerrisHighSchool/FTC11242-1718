@@ -56,11 +56,15 @@ import java.*;
 
 public class Tred extends LinearOpMode {
 
+    //private OpMode members
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftMotor = null;
     private DcMotor rightMotor = null;
     private DcMotor leftTred = null;
     private DcMotor rightTred = null;
+    private DcMotor leftLift = null;
+    private DcMotor rightLift = null;
+
 
     @Override
     public void runOpMode() {
@@ -71,12 +75,10 @@ public class Tred extends LinearOpMode {
         rightMotor = hardwareMap.get(DcMotor.class, "right_drive");
         leftTred = hardwareMap.get(DcMotor.class, "left_tred");
         rightTred = hardwareMap.get(DcMotor.class, "right_tred");
+        leftLift = hardwareMap.get(DcMotor.class, "left_lift");
+        rightLift = hardwareMap.get(DcMotor.class, "right_lift");
 
-        leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        rightMotor.setDirection(DcMotor.Direction.FORWARD);
 
-        leftTred.setDirection(DcMotor.Direction.REVERSE);
-        rightTred.setDirection(DcMotor.Direction.FORWARD);
         // Wait for the game to start
         waitForStart();
         runtime.reset();
@@ -86,33 +88,32 @@ public class Tred extends LinearOpMode {
 
             double leftPower;
             double rightPower;
-            double tred;
-            boolean positivePower;
-            boolean negativePower;
-            boolean popLock;
+            boolean treadsUp;
+            boolean treadsDown;
+            boolean liftOne;
+            boolean liftTwo;
+            boolean lowerAll;
+
 
             double drive = -gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x;
+            liftTwo = gamepad1.a;
+            treadsUp = gamepad1.dpad_up;
+            treadsDown = gamepad1.dpad_down;
+
+            if (liftTwo == true) {
+                /*leftLift.setPower(-0.5); // goes up, mirrors right lift
+                rightLift.setPower(0.5); // negated to go the same direction as the other lift
+                sleep(2000);*/
+
+            }
 
 
-            //popLock = gamepad1.a;
-            positivePower = gamepad1.dpad_up;
-            negativePower = gamepad1.dpad_down;
-
-            /*if (popLock == true) {
-                leftMotor.setPower(-1);
-                rightMotor.setPower(-1);
-                sleep(500);
-                leftMotor.setPower(1);
-                rightMotor.setPower(1);
-                sleep(750);
-            }*/
-
-            if(positivePower == true){
+            if(treadsUp == true){
                 leftTred.setPower(1);
                 rightTred.setPower(1);
             }
-            else if(negativePower == true){
+            else if(treadsDown == true){
                 rightTred.setPower(-1);
                 leftTred.setPower(-1);
             }else{
@@ -126,15 +127,13 @@ public class Tred extends LinearOpMode {
             leftPower = Range.clip(drive + turn, -1.0, 1.0);//gage drive
             rightPower = Range.clip(drive - turn, -1.0, 1.0);//gage drive
 
-            // leftPower  = -gamepad1.left_stick_y ;    //tank drive
-            // rightPower = -gamepad1.right_stick_y ;   //tank drive
-
             leftMotor.setPower(leftPower);  //motor power
             rightMotor.setPower(rightPower);  //motor power
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-            telemetry.addData("Tred", "left, right", positivePower, negativePower);
+            telemetry.addData("Treads", "left, right", treadsUp, treadsDown);
+            telemetry.addData("Lift", "left, right", leftLift, rightLift);
             telemetry.update();
         }
     }

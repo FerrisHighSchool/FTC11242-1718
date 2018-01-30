@@ -33,6 +33,7 @@ package org.firstinspires.ftc.teamcode;
  */
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -47,26 +48,33 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * This hardware class assumes the following device names have been configured on the robot:
  * Note:  All names are lower case and some have single spaces between words.
  *
- * Motor channel:  Left  drive motor:        "left_drive"
- * Motor channel:  Right drive motor:        "right_drive"
- * Motor channel:  Manipulator drive motor:  "left_arm"
- * Servo channel:  Servo to open left claw:  "left_hand"
- * Servo channel:  Servo to open right claw: "right_hand"
+ * Motor channel:  Left drive motor:        "left_drive"
+ * Motor channel:  Right drive motor:       "right_drive"
+ * Motor channel:  Left drive lift:         "left_lift"
+ * Motor channel:  Right drive lift:        "right_lift"
+ * Motor channel:  Left tread:              "left_tred"
+ * Motor channel:  Right tread:             "right_tred"
  */
 public class HardwarePushbot
 {
     /* Public OpMode members. */
-    public DcMotor  leftMotor   = null;
+    public DcMotor  leftMotor = null;
+    public DcMotor  leftLift = null;
     public DcMotor  rightMotor = null;
-    public DcMotor  leftTred  = null;
+    public DcMotor  leftTred = null;
     public DcMotor  rightTred = null;
-   /* public DcMotor  leftArm     = null;
-    public Servo    leftClaw    = null;
+    public DcMotor  rightLift = null;
+    /*public Servo  leftClaw    = null;
     public Servo    rightClaw   = null; */
 
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.45 ;
     public static final double ARM_DOWN_POWER  = -0.45 ;
+    //variables used for lift encoders
+    public static final double COUNTS_PER_MOTOR_REV = 1120; // pulses per rotation on AndyMark NeveRest 40 Gearmotor Encoder
+    public static final double WHEEL_DIAMETER_CM = 3.1; // for finding circumference
+    public static final double COUNTS_PER_CM =  COUNTS_PER_MOTOR_REV / (WHEEL_DIAMETER_CM * Math.PI); // about 115 pulses per cm
+
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -85,27 +93,41 @@ public class HardwarePushbot
         // Define and Initialize Motors
         leftMotor = hwMap.get(DcMotor.class, "left_drive");
         rightMotor = hwMap.get(DcMotor.class, "right_drive");
-        // leftArm    = hwMap.get(DcMotor.class, "left_arm");
         leftTred = hwMap.get(DcMotor.class, "left_tred");
         rightTred = hwMap.get(DcMotor.class, "right_tred");
+        leftLift = hwMap.get(DcMotor.class, "left_lift");
+        rightLift = hwMap.get(DcMotor.class, "right_lift");
 
-        leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        // Set Direction for Motors
+        leftMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
+        rightMotor.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+        leftLift.setDirection(DcMotor.Direction.REVERSE);
+        rightLift.setDirection(DcMotor.Direction.FORWARD);
+        leftTred.setDirection(DcMotor.Direction.REVERSE); // set at REVERSE to go forward, since they are AndyMark motors, true of all three right motors
+        rightTred.setDirection(DcMotor.Direction.FORWARD); // set at FORWARD, since they are AndyMark motors, true of all three left motors
+
 
         // Set all motors to zero power
         leftMotor.setPower(0);
         rightMotor.setPower(0);
         leftTred.setPower(0);
         rightTred.setPower(0);
-        // leftArm.setPower(0);
+        leftMotor.setPower(0);
+        rightLift.setPower(0);
+
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // change to encoders later
+        rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //change to encoders later
+
         leftTred.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightTred.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        // leftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
 
         // Define and initialize ALL installed servos.
         /* leftClaw  = hwMap.get(Servo.class, "left_hand");
