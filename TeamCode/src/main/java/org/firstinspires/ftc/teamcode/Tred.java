@@ -103,17 +103,17 @@ public class Tred extends LinearOpMode {
             treadsUp = gamepad1.dpad_up;
             treadsDown = gamepad1.dpad_down;
 
+
+            //boolean statements for lift motors
             if (liftTwo == true) {
-                /*leftLift.setPower(-0.5); // goes up, mirrors right lift
-                rightLift.setPower(0.5); // negated to go the same direction as the other lift
-                sleep(2000);*/
-                //currentLeftPosition = leftLift.getCurrentPosition();
                 leftLift.setPower(-0.5);
-                leftLift.setTargetPosition(1120);
+                rightLift.setPower(0.5);
+                sleep(1000);
             }
-            //else {
-//
-//            }
+            else {
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+            }
 
             if(treadsUp == true){
                 leftTred.setPower(1);
@@ -138,8 +138,6 @@ public class Tred extends LinearOpMode {
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-            telemetry.addData("Treads", "left (%.2f), right (%.2f)", treadsUp, treadsDown);
-            telemetry.addData("Lift", "left (%.2f), right (%.2f)", leftLift, rightLift);
             telemetry.update();
         }
     }
