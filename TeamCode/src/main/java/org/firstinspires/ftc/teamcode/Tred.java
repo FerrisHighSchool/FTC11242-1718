@@ -100,33 +100,45 @@ public class Tred extends LinearOpMode {
             double drive = -gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x;
             liftTwo = gamepad1.a;
+            lowerAll = gamepad1.b;
             treadsUp = gamepad1.dpad_up;
             treadsDown = gamepad1.dpad_down;
 
 
-            //boolean statements for lift motors
+            //boolean statements for lift motors going up 2 inches
             if (liftTwo == true) {
                 leftLift.setPower(-0.5);
                 rightLift.setPower(0.5);
-                sleep(1000);
+                sleep(500);
             }
             else {
                 leftLift.setPower(0);
                 rightLift.setPower(0);
             }
 
-            if(treadsUp == true){
-                leftTred.setPower(1);
+            //boolean for tread rotations
+            if(treadsDown == true){
+                leftTred.setPower(-1);
                 rightTred.setPower(1);
             }
-            else if(treadsDown == true){
+            else if(treadsUp == true){
+                leftTred.setPower(1);
                 rightTred.setPower(-1);
-                leftTred.setPower(-1);
             }else{
-                rightTred.setPower(0);
                 leftTred.setPower(0);
+                rightTred.setPower(0);
             }
 
+            //boolean for lowering lift motors
+            if (lowerAll == true) {
+                leftLift.setPower(0.5);
+                rightLift.setPower(-0.5);
+                sleep(500);
+            }
+            else {
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+            }
 
 
 
