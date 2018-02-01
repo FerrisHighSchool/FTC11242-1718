@@ -124,8 +124,8 @@ public class HardwarePushbot
         leftTred.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightTred.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
