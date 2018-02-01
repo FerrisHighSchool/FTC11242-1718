@@ -67,9 +67,9 @@ public class HardwarePushbot
     /*public Servo  leftClaw    = null;
     public Servo    rightClaw   = null; */
 
-    public static final double MID_SERVO       =  0.5 ;
-    public static final double ARM_UP_POWER    =  0.45 ;
-    public static final double ARM_DOWN_POWER  = -0.45 ;
+    public static final double MID_SERVO       =  0.5;
+    public static final double ARM_UP_POWER    =  0.45;
+    public static final double ARM_DOWN_POWER  = -0.45;
     //variables used for lift encoders
     public static final double COUNTS_PER_MOTOR_REV = 1120; // pulses per rotation on AndyMark NeveRest 40 Gearmotor Encoder
     public static final double WHEEL_DIAMETER_CM = 3.1; // for finding circumference
