@@ -124,7 +124,7 @@ public class CrimsonTurn {
                 RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
                     if (vuMark == RelicRecoveryVuMark.LEFT) {
-                        drive(1200);
+                        drive(1, 1, 1);
                         turnAt(90, 1);
                         stop();
                     }
@@ -134,7 +134,7 @@ public class CrimsonTurn {
                         stop();
                     }
                     if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                        drive(1250);
+                        drive(1, 1, 1);
                         turnAt(90, 1);
                         stop();
                     }
