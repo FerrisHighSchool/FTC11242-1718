@@ -97,8 +97,8 @@ public class Tred extends LinearOpMode {
             int currentRightPosition;
 
 
-            double drive = -gamepad1.left_stick_y;
-            double turn = gamepad1.right_stick_x;
+            double drive = -gamepad1.right_stick_x;
+            double turn = gamepad1.left_stick_y;
             liftTwo = gamepad1.a;
             lowerAll = gamepad1.b;
             treadsUp = gamepad1.dpad_up;

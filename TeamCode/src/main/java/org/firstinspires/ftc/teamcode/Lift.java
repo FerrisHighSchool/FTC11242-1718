@@ -98,8 +98,8 @@ public class Lift extends LinearOpMode {
             int currentRightPosition;
 
 
-            double drive = -gamepad1.left_stick_y;
-            double turn = gamepad1.right_stick_x;
+            double drive = -gamepad1.right_stick_x;
+            double turn = gamepad1.left_stick_y;
             liftTwo = gamepad1.a;
             lowerAll = gamepad1.b;
             treadsUp = gamepad1.dpad_up;
@@ -125,15 +125,6 @@ public class Lift extends LinearOpMode {
                     // Turn On RUN_TO_POSITION
                     leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                    //makes it possible to go backwards with negative inches
-                    if(inches > 0) {
-                        leftMotor.setPower(1);
-                        rightMotor.setPower(0.9);
-                    } else {
-                        leftMotor.setPower(-1);
-                        rightMotor.setPower(-0.9);
-                    }
                 }
             }
             else {
@@ -179,4 +170,3 @@ public class Lift extends LinearOpMode {
         }
     }
 }
-//}

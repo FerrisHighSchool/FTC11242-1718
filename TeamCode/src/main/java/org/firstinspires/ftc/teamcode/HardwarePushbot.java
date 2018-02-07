@@ -72,8 +72,9 @@ public class HardwarePushbot
     public static final double ARM_DOWN_POWER  = -0.45;
     //variables used for lift encoders
     public static final double COUNTS_PER_MOTOR_REV = 1120; // pulses per rotation on AndyMark NeveRest 40 Gearmotor Encoder
-    public static final double WHEEL_DIAMETER_CM = 3.1; // for finding circumference
-    public static final double COUNTS_PER_CM =  COUNTS_PER_MOTOR_REV / (WHEEL_DIAMETER_CM * Math.PI); // about 115 pulses per cm
+    public static final double GEAR_DIAMETER = 3.1; // for finding circumference
+    public static final double COUNTS_PER_CM =  COUNTS_PER_MOTOR_REV / (GEAR_DIAMETER * Math.PI); // about 115 pulses per cm
+
 
 
     /* local OpMode members. */

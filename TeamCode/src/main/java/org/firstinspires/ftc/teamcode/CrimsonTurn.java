@@ -175,79 +175,116 @@ public class CrimsonTurn {
                         double rZ = rot.thirdAngle;
                     }
 
-                } else {
-                    /*drive(750);
-                    stopp(5000);//good
-                    stop();
-                    */
+                }
+                else {
                     telemetry.addData("VuMark", "not visible");
                 }
-
                 telemetry.update();
             }
 
         }
-        public void stopp(int time) throws InterruptedException {
+
+
+        static final double COUNTS_PER_MOTOR_REV = 1120;
+        static final double WHEEL_DIAMETER = 3.85; // for finding circumference, in inches
+        static final double COUNTS_PER_INCH = COUNTS_PER_MOTOR_REV / (WHEEL_DIAMETER * Math.PI); //about 36.4 pulses per in
+
+
+        // method for driving forward
+        public void drive(double inches, double leftSpeed, double rightSpeed) throws InterruptedException {
+
+            int newRightTarget;
+            // Ensure that the opmode is still active
+
             if (opModeIsActive()) {
+
+                // Determine new target position, and pass to motor controller
+                newRightTarget = rightMotor.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+
+                leftMotor.setTargetPosition(newRightTarget);
+                rightMotor.setTargetPosition(newRightTarget);
+
+                // Turn On RUN_TO_POSITION
+                leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                // This is helpful if we want to reverse with negative inches
+                if (inches > 0) {
+
+                    leftMotor.setPower(leftSpeed);
+                    rightMotor.setPower(rightSpeed);
+                } else {
+
+                    leftMotor.setPower(-leftSpeed);
+                    rightMotor.setPower(-rightSpeed);
+                }
+
+                //loop for telemetry while the opmode is runnning
+                while ((leftMotor.isBusy())) {
+
+                    // Display it for the driver.
+                    telemetry.addData("Path1", "Running to %7d :%7d", newRightTarget, newRightTarget);
+                    telemetry.addData("Path2", "Running at %7d :%7d",
+                            leftMotor.getCurrentPosition(),
+                            rightMotor.getCurrentPosition());
+
+                    telemetry.update();
+                    idle();
+                }
+
                 leftMotor.setPower(0);
                 rightMotor.setPower(0);
-                sleep(time);
 
+                // Turn off RUN_TO_POSITION
+                leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                sleep(250);
             }
         }
 
-        static final double COUNTS_PER_MOTOR_REV = 1120;
-        static final double COUNTS_PER_INCH = COUNTS_PER_MOTOR_REV;
-        public void turnAt(double angle, double speed) throws InterruptedException {
-            int leftMotorPosition = leftMotor.getCurrentPosition();
-            int newAngleTarget = leftMotor.getCurrentPosition() + (int) (turnAtAngle(angle) * COUNTS_PER_INCH); }
 
 
         public double turnAtAngle(double angle) {
+
             double inchesToTurn = (angle * (Math.PI / 180) * 18);
+
             return inchesToTurn;
         }
 
-        public void drive(int time) throws InterruptedException {
 
-            int newRightTarget;
+        // method for turning towards the right
+        public void turnAt(double angle, double speed) throws InterruptedException {
+
+            int leftMotorPosition = leftMotor.getCurrentPosition();
+            int newAngleTarget = leftMotor.getCurrentPosition() + (int) (turnAtAngle(angle) * COUNTS_PER_INCH);
+
             if (opModeIsActive()) {
-                leftMotor.setPower(-.25);
-                rightMotor.setPower(.25);
-                sleep(time);
 
-            }
+                leftMotor.setTargetPosition(newAngleTarget);
+                leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        }
+                if (angle > 0) {
 
-        public void driveslow(int time) throws InterruptedException {
+                    leftMotor.setPower(speed);
+                } else {
+                    leftMotor.setPower(speed);
+                }
 
-            int newRightTarget;
-            if (opModeIsActive()) {
-                leftMotor.setPower(-.25 / 2);
-                rightMotor.setPower(.25 / 2);
-                sleep(time);
+                // telemetry for robot rotating at desired angle
+                while (opModeIsActive() && leftMotor.isBusy()) {
+                    // Display it for the driver.
+                    telemetry.addData("Angle Turn", "Running to %7d", newAngleTarget);
+                    telemetry.addData("Path2", "Running at " + " : " + leftMotorPosition);
+                    telemetry.update();
 
-            }
+                    // Allow time for other processes to run.
+                    idle();
+                }
 
-        }
-
-        public void reverse(int time) throws InterruptedException {
-            if (opModeIsActive()) {
-                leftMotor.setPower(.25);
-                rightMotor.setPower(-.25);
-                sleep(time);
-
-            }
-
-        }
-
-        public void release(int time) throws InterruptedException {
-            if (opModeIsActive()) {
-                leftTred.setPower(-.25);
-                rightTred.setPower(.25);
-                sleep(time);
-
+                leftMotor.setPower(0);
+                leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                sleep(250);
             }
         }
 
