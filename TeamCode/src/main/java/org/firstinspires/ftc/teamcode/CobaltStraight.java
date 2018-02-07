@@ -25,10 +25,10 @@ import java.io.IOException;
 import java.io.InterruptedIOException;
 
 /**
- * Created by nerdxoverboard on 1/26/2018.
+ * Created by nerdxoverboard on 1/07/2018.
  */
 
-public class CrimsonTurn {
+public class CobaltStraight {
     /**
      * This OpMode illustrates the basics of using the Vuforia engine to determine
      * the identity of Vuforia VuMarks encountered on the field. The code is structured as

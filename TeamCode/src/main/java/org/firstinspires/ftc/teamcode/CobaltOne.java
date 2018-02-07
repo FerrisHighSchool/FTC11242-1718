@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import java.lang.InterruptedException;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaNavigation;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -21,14 +19,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-import java.io.IOException;
-import java.io.InterruptedIOException;
-
 /**
- * Created by nerdxoverboard on 1/26/2018.
+ * Created by hsuser01 on 1/17/2018.
  */
 
-public class CrimsonTurn {
+public class CobaltOne {
     /**
      * This OpMode illustrates the basics of using the Vuforia engine to determine
      * the identity of Vuforia VuMarks encountered on the field. The code is structured as
@@ -47,7 +42,7 @@ public class CrimsonTurn {
      * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
      * is explained in {@link ConceptVuforiaNavigation}.
      */
-    @Autonomous(name="Crimson: Turn", group ="Concept")
+    @Autonomous(name="Cobalt 1", group ="Concept")
     //@Disabled
     public static class ConceptVuMarkIdentification extends LinearOpMode {
         DcMotor leftMotor,  // left drive wheel
@@ -124,21 +119,36 @@ public class CrimsonTurn {
                 RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
                     if (vuMark == RelicRecoveryVuMark.LEFT) {
-                        drive(1200);
-                        turnAt(90, 1);
-                        stop();
-                    }
-                    if (vuMark == RelicRecoveryVuMark.CENTER) {
-                        drive(30, 0.5, 0.5);
-                        turnAt(-90, 1);
+                        reverse(1500);
+                        turnRight(1100);
+                        stopp(1000);
+                        turnLeft(500);
+                        driveslow(500);
+                        release(1000);
+                        reverse(1000);
+                        drive(600);
                         stop();
                     }
                     if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                        drive(1250);
-                        turnAt(90, 1);
+                        reverse(1700);
+                        turnRight(1100);
+                        stopp(1000);
+
+                        driveslow(500);
+                        release(1000);
+                        reverse(1000);
+                        drive(600);
+                        stop();
+                    }  if (vuMark == RelicRecoveryVuMark.CENTER) {
+                        reverse(1500);
+                        turnRight(1100);
+                        stopp(1000);
+                        driveslow(500);
+                        release(1000);
+                        reverse(1000);
+                        drive(600);
                         stop();
                     }
-
                     telemetry.addData("VuMark", "%s visible", vuMark);
 
                     OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
@@ -159,116 +169,82 @@ public class CrimsonTurn {
                         double rZ = rot.thirdAngle;
                     }
 
-                }
-                else {
+                } else {
+
                     telemetry.addData("VuMark", "not visible");
                 }
+
                 telemetry.update();
             }
 
         }
-
-
-        static final double COUNTS_PER_MOTOR_REV = 1120;
-        static final double WHEEL_DIAMETER = 3.85; // for finding circumference, in inches
-        static final double COUNTS_PER_INCH = COUNTS_PER_MOTOR_REV / (WHEEL_DIAMETER * Math.PI); //about 36.4 pulses per in
-
-
-        // method for driving forward
-        public void drive(double inches, double leftSpeed, double rightSpeed) throws InterruptedException {
-
-            int newRightTarget;
-            // Ensure that the opmode is still active
-
+        public void stopp(int time) throws InterruptedException {
             if (opModeIsActive()) {
-
-                // Determine new target position, and pass to motor controller
-                newRightTarget = rightMotor.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
-
-                leftMotor.setTargetPosition(newRightTarget);
-                rightMotor.setTargetPosition(newRightTarget);
-
-                // Turn On RUN_TO_POSITION
-                leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                // This is helpful if we want to reverse with negative inches
-                if (inches > 0) {
-
-                    leftMotor.setPower(leftSpeed);
-                    rightMotor.setPower(rightSpeed);
-                } else {
-
-                    leftMotor.setPower(-leftSpeed);
-                    rightMotor.setPower(-rightSpeed);
-                }
-
-                //loop for telemetry while the opmode is runnning
-                while ((leftMotor.isBusy())) {
-
-                    // Display it for the driver.
-                    telemetry.addData("Path1", "Running to %7d :%7d", newRightTarget, newRightTarget);
-                    telemetry.addData("Path2", "Running at %7d :%7d",
-                            leftMotor.getCurrentPosition(),
-                            rightMotor.getCurrentPosition());
-
-                    telemetry.update();
-                    idle();
-                }
-
                 leftMotor.setPower(0);
                 rightMotor.setPower(0);
+                sleep(time);
 
-                // Turn off RUN_TO_POSITION
-                leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+        }
 
-                sleep(250);
+        public void turnRight(int time) throws InterruptedException {
+            if (opModeIsActive()) {
+                leftMotor.setPower(-.25);
+                rightMotor.setPower(-.25);
+                sleep(time);
+
+            }
+        }
+        public void turnLeft(int time) throws InterruptedException {
+            if (opModeIsActive()) {
+                leftMotor.setPower(.25);
+                rightMotor.setPower(.25);
+                sleep(time);
+
             }
         }
 
 
+        public void drive(int time) throws InterruptedException {
 
-        public double turnAtAngle(double angle) {
+            int newRightTarget;
+            if (opModeIsActive()) {
+                leftMotor.setPower(-.25);
+                rightMotor.setPower(.25);
+                sleep(time);
 
-            double inchesToTurn = (angle * (Math.PI / 180) * 18);
+            }
 
-            return inchesToTurn;
         }
 
+        public void driveslow(int time) throws InterruptedException {
 
-        // method for turning towards the right
-        public void turnAt(double angle, double speed) throws InterruptedException {
-
-            int leftMotorPosition = leftMotor.getCurrentPosition();
-            int newAngleTarget = leftMotor.getCurrentPosition() + (int) (turnAtAngle(angle) * COUNTS_PER_INCH);
-
+            int newRightTarget;
             if (opModeIsActive()) {
+                leftMotor.setPower(-.25 / 2);
+                rightMotor.setPower(.25 / 2);
+                sleep(time);
 
-                leftMotor.setTargetPosition(newAngleTarget);
-                leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
 
-                if (angle > 0) {
+        }
 
-                    leftMotor.setPower(speed);
-                } else {
-                    leftMotor.setPower(speed);
-                }
+        public void reverse(int time) throws InterruptedException {
+            if (opModeIsActive()) {
+                leftMotor.setPower(.25);
+                rightMotor.setPower(-.25);
+                sleep(time);
 
-                // telemetry for robot rotating at desired angle
-                while (opModeIsActive() && leftMotor.isBusy()) {
-                    // Display it for the driver.
-                    telemetry.addData("Angle Turn", "Running to %7d", newAngleTarget);
-                    telemetry.addData("Path2", "Running at " + " : " + leftMotorPosition);
-                    telemetry.update();
+            }
 
-                    // Allow time for other processes to run.
-                    idle();
-                }
+        }
 
-                leftMotor.setPower(0);
-                leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                sleep(250);
+        public void release(int time) throws InterruptedException {
+            if (opModeIsActive()) {
+                leftTred.setPower(-.25);
+                rightTred.setPower(.25);
+                sleep(time);
+
             }
         }
 
