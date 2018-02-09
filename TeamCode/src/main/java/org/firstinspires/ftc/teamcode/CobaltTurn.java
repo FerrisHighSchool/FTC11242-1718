@@ -47,7 +47,7 @@ public class CobaltTurn {
      * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
      * is explained in {@link ConceptVuforiaNavigation}.
      */
-    @Autonomous(name="Crimson: Turn", group ="Concept")
+    @Autonomous(name="Cobalt: Turn", group ="Concept")
     //@Disabled
     public static class ConceptVuMarkIdentification extends LinearOpMode {
         DcMotor leftMotor,  // left drive wheel
@@ -113,7 +113,6 @@ public class CobaltTurn {
 
             relicTrackables.activate();
 
-            while (opModeIsActive()) {
 
                 /**
                  * See if any of the instances of {@link relicTemplate} are currently visible.
@@ -123,20 +122,27 @@ public class CobaltTurn {
                  */
                 RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+                    // Left Cryptobox
                     if (vuMark == RelicRecoveryVuMark.LEFT) {
-                        drive(1, 1, 1);
-                        turnAt(90, 1);
-                        stop();
+                        drive(15, -0.5, -0.5);
+                        turnAt(90, 0.5, false, true);
+                        drive(5, 0.5, 0.5);
+
                     }
-                    if (vuMark == RelicRecoveryVuMark.CENTER) {
-                        drive(30, 0.5, 0.5);
-                        turnAt(-90, 1);
-                        stop();
+                    // Center Cryptobox
+                    else if (vuMark == RelicRecoveryVuMark.CENTER) {
+                        drive(20, -0.5, -0.5);
+                        turnAt(90, 0.5, false, true);
+                        drive(5, 0.5, 0.5);
+
+
                     }
-                    if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                        drive(1,1 ,1 );
-                        turnAt(90, 1);
-                        stop();
+                    // Right Cryptobox
+                    else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+                        drive(25, -0.5, -0.5);
+                        turnAt(90, 0.5, false, true);
+                        drive(5, 0.5, 0.5);
+
                     }
 
                     telemetry.addData("VuMark", "%s visible", vuMark);
@@ -164,15 +170,12 @@ public class CobaltTurn {
                     telemetry.addData("VuMark", "not visible");
                 }
                 telemetry.update();
-            }
 
         }
-
 
         static final double COUNTS_PER_MOTOR_REV = 1120;
         static final double WHEEL_DIAMETER = 3.85; // for finding circumference, in inches
         static final double COUNTS_PER_INCH = COUNTS_PER_MOTOR_REV / (WHEEL_DIAMETER * Math.PI); //about 36.4 pulses per in
-
 
         // method for driving forward
         public void drive(double inches, double leftSpeed, double rightSpeed) throws InterruptedException {
@@ -227,8 +230,6 @@ public class CobaltTurn {
             }
         }
 
-
-
         public double turnAtAngle(double angle) {
 
             double inchesToTurn = (angle * (Math.PI / 180) * 18);
@@ -236,48 +237,66 @@ public class CobaltTurn {
             return inchesToTurn;
         }
 
-
         // method for turning towards the right
-        public void turnAt(double angle, double speed) throws InterruptedException {
+        // method for turning towards the right
+        public void turnAt(double angle, double speed, boolean turnLeft, boolean turnRight) throws InterruptedException {
 
-            int leftMotorPosition = leftMotor.getCurrentPosition();
-            int newAngleTarget = leftMotor.getCurrentPosition() + (int) (turnAtAngle(angle) * COUNTS_PER_INCH);
+            // Set Position for right motor
+            int rightMotorPosition = rightMotor.getCurrentPosition();
+            int newAngleTarget = rightMotor.getCurrentPosition() + (int) (turnAtAngle(angle) * COUNTS_PER_INCH);
 
             if (opModeIsActive()) {
+                // Turning Left
+                if(turnLeft) {
+                    // Set Target Position for Right Motor
+                    rightMotor.setTargetPosition(newAngleTarget);
+                    rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                leftMotor.setTargetPosition(newAngleTarget);
-                leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    // Go forward if positive degrees
+                    // Otherwise, go backwards
+                    if (angle > 0) {
+                        rightMotor.setPower(speed);
+                    } else {
+                        rightMotor.setPower(-speed);
+                    }
+                }
+                // Turning Right
+                else if(turnRight) {
+                    // Set Target Position for Left Motor
+                    leftMotor.setTargetPosition(newAngleTarget);
+                    leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                if (angle > 0) {
-
-                    leftMotor.setPower(speed);
-                } else {
-                    leftMotor.setPower(speed);
+                    // Go forward if positive degrees
+                    // Otherwise, go backwards
+                    if(angle > 0)
+                        leftMotor.setPower(speed);
+                    else
+                        leftMotor.setPower(-speed);
                 }
 
                 // telemetry for robot rotating at desired angle
                 while (opModeIsActive() && leftMotor.isBusy()) {
                     // Display it for the driver.
                     telemetry.addData("Angle Turn", "Running to %7d", newAngleTarget);
-                    telemetry.addData("Path2", "Running at " + " : " + leftMotorPosition);
+                    telemetry.addData("Path2", "Running at " + " : " + rightMotorPosition);
                     telemetry.update();
 
                     // Allow time for other processes to run.
                     idle();
                 }
 
+                // Kill motor power
+                rightMotor.setPower(0);
                 leftMotor.setPower(0);
+                rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 sleep(250);
             }
         }
 
-
         String format(OpenGLMatrix transformationMatrix) {
             return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
         }
-
-
     }
 
 }

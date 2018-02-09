@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import java.lang.InterruptedException;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaNavigation;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -47,7 +49,7 @@ public class CrimsonStraight {
      * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
      * is explained in {@link ConceptVuforiaNavigation}.
      */
-    @Autonomous(name="Crimson: Turn", group ="Concept")
+    @Autonomous(name="Crimson: Straight", group ="Concept")
     //@Disabled
     public static class ConceptVuMarkIdentification extends LinearOpMode {
         DcMotor leftMotor,  // left drive wheel
@@ -107,13 +109,14 @@ public class CrimsonStraight {
             VuforiaTrackable relicTemplate = relicTrackables.get(0);
             relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
 
+            // Resets Enocders and stuff
+            configRobot();
+
             telemetry.addData(">", "Press Play to start");
             telemetry.update();
             waitForStart();
 
             relicTrackables.activate();
-
-            while (opModeIsActive()) {
 
                 /**
                  * See if any of the instances of {@link relicTemplate} are currently visible.
@@ -121,93 +124,95 @@ public class CrimsonStraight {
                  * UNKNOWN, LEFT, CENTER, and RIGHT. When a VuMark is visible, something other than
                  * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
                  */
-                RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-                if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-                    if (vuMark == RelicRecoveryVuMark.LEFT) {
-                        drive(1, 1, 1);
-                        turnAt(90, 1);
-                        stop();
+                    RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+                    if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+                        // Left Crytobox
+                        if (vuMark == RelicRecoveryVuMark.LEFT) {
+                            drive(33, 0.5, 0.5);
+                            turnAt(90, 0.5, true, false);
+                            drive(10, 0.5, 0.5);
+                            turnAt(90, 0.5, false, true);
+                            drive(3, 0.5, 0.5);
+                        }
+                        // Center Cryptobox
+                        else if (vuMark == RelicRecoveryVuMark.CENTER) {
+                            drive(33, 0.5, 0.5);
+                            turnAt(90, 0.5, true, false);
+                            drive(5, 0.5, 0.5);
+                            turnAt(90, 0.5, false, true);
+                            drive(3, 0.5, 0.5);
+                        }
+                        // Right Cryptobox
+                        else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+                            drive(33, 0.5, 0.5);
+                            turnAt(90, 0.5, true, false);
+                            // May or may not need
+                            //drive(2, 0.5, 0.5);
+                            turnAt(90, 0.5, false, true);
+                            drive(3, 0.5, 0.5);
+                        }
+
+                        telemetry.addData("VuMark", "%s visible", vuMark);
+
+                        OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
+                        telemetry.addData("Pose", format(pose));
+
+                        if (pose != null) {
+                            VectorF trans = pose.getTranslation();
+                            Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+
+                            // Extract the X, Y, and Z components of the offset of the target relative to the robot
+                            double tX = trans.get(0);
+                            double tY = trans.get(1);
+                            double tZ = trans.get(2);
+
+                            // Extract the rotational components of the target relative to the robot
+                            double rX = rot.firstAngle;
+                            double rY = rot.secondAngle;
+                            double rZ = rot.thirdAngle;
+                        }
+
+                    } else {
+                        telemetry.addData("VuMark", "not visible");
                     }
-                    if (vuMark == RelicRecoveryVuMark.CENTER) {
-                        drive(30, 0.5, 0.5);
-                        turnAt(-90, 1);
-                        stop();
-                    }
-                    if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                        drive(1, 1, 1);
-                        turnAt(90, 1);
-                        stop();
-                    }
+                    telemetry.update();
 
-                    telemetry.addData("VuMark", "%s visible", vuMark);
-
-                    OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
-                    telemetry.addData("Pose", format(pose));
-
-                    if (pose != null) {
-                        VectorF trans = pose.getTranslation();
-                        Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-
-                        // Extract the X, Y, and Z components of the offset of the target relative to the robot
-                        double tX = trans.get(0);
-                        double tY = trans.get(1);
-                        double tZ = trans.get(2);
-
-                        // Extract the rotational components of the target relative to the robot
-                        double rX = rot.firstAngle;
-                        double rY = rot.secondAngle;
-                        double rZ = rot.thirdAngle;
-                    }
-
-                }
-                else {
-                    telemetry.addData("VuMark", "not visible");
-                }
-                telemetry.update();
-            }
-
+            leftMotor.setPower(0);
+            rightMotor.setPower(0);
+            idle();
         }
-
 
         static final double COUNTS_PER_MOTOR_REV = 1120;
         static final double WHEEL_DIAMETER = 3.85; // for finding circumference, in inches
         static final double COUNTS_PER_INCH = COUNTS_PER_MOTOR_REV / (WHEEL_DIAMETER * Math.PI); //about 36.4 pulses per in
 
-
         // method for driving forward
         public void drive(double inches, double leftSpeed, double rightSpeed) throws InterruptedException {
 
-            int newRightTarget;
+            int newRightTarget, newLeftTarget;
             // Ensure that the opmode is still active
 
             if (opModeIsActive()) {
 
                 // Determine new target position, and pass to motor controller
                 newRightTarget = rightMotor.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+                newLeftTarget = leftMotor.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
 
-                leftMotor.setTargetPosition(newRightTarget);
+                leftMotor.setTargetPosition(newLeftTarget);
                 rightMotor.setTargetPosition(newRightTarget);
 
                 // Turn On RUN_TO_POSITION
                 leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                // This is helpful if we want to reverse with negative inches
-                if (inches > 0) {
-
-                    leftMotor.setPower(leftSpeed);
-                    rightMotor.setPower(rightSpeed);
-                } else {
-
-                    leftMotor.setPower(-leftSpeed);
-                    rightMotor.setPower(-rightSpeed);
-                }
+                leftMotor.setPower(leftSpeed);
+                rightMotor.setPower(rightSpeed);
 
                 //loop for telemetry while the opmode is runnning
-                while ((leftMotor.isBusy())) {
+                while ((leftMotor.isBusy() && rightMotor.isBusy())) {
 
                     // Display it for the driver.
-                    telemetry.addData("Path1", "Running to %7d :%7d", newRightTarget, newRightTarget);
+                    telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
                     telemetry.addData("Path2", "Running at %7d :%7d",
                             leftMotor.getCurrentPosition(),
                             rightMotor.getCurrentPosition());
@@ -227,8 +232,6 @@ public class CrimsonStraight {
             }
         }
 
-
-
         public double turnAtAngle(double angle) {
 
             double inchesToTurn = (angle * (Math.PI / 180) * 18);
@@ -236,48 +239,84 @@ public class CrimsonStraight {
             return inchesToTurn;
         }
 
-
         // method for turning towards the right
-        public void turnAt(double angle, double speed) throws InterruptedException {
+        public void turnAt(double angle, double speed, boolean turnLeft, boolean turnRight) throws InterruptedException {
 
-            int leftMotorPosition = leftMotor.getCurrentPosition();
-            int newAngleTarget = leftMotor.getCurrentPosition() + (int) (turnAtAngle(angle) * COUNTS_PER_INCH);
+            // Set Position for right motor
+            int rightMotorPosition = rightMotor.getCurrentPosition();
+            int newAngleTarget = rightMotor.getCurrentPosition() + (int) (turnAtAngle(angle) * COUNTS_PER_INCH);
 
             if (opModeIsActive()) {
+                // Turning Left
+                if(turnLeft) {
+                    // Set Target Position for Right Motor
+                    rightMotor.setTargetPosition(newAngleTarget);
+                    rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                leftMotor.setTargetPosition(newAngleTarget);
-                leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    // Go forward if positive degrees
+                    // Otherwise, go backwards
+                    if (angle > 0) {
+                        rightMotor.setPower(speed);
+                    } else {
+                        rightMotor.setPower(-speed);
+                    }
+                }
+                // Turning Right
+                else if(turnRight) {
+                    // Set Target Position for Left Motor
+                    leftMotor.setTargetPosition(newAngleTarget);
+                    leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                if (angle > 0) {
-
-                    leftMotor.setPower(speed);
-                } else {
-                    leftMotor.setPower(speed);
+                    // Go forward if positive degrees
+                    // Otherwise, go backwards
+                    if(angle > 0)
+                        leftMotor.setPower(speed);
+                    else
+                        leftMotor.setPower(-speed);
                 }
 
                 // telemetry for robot rotating at desired angle
                 while (opModeIsActive() && leftMotor.isBusy()) {
                     // Display it for the driver.
                     telemetry.addData("Angle Turn", "Running to %7d", newAngleTarget);
-                    telemetry.addData("Path2", "Running at " + " : " + leftMotorPosition);
+                    telemetry.addData("Path2", "Running at " + " : " + rightMotorPosition);
                     telemetry.update();
 
                     // Allow time for other processes to run.
                     idle();
                 }
 
+                // Kill motor power
+                rightMotor.setPower(0);
                 leftMotor.setPower(0);
-                leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 sleep(250);
+
             }
         }
-
 
         String format(OpenGLMatrix transformationMatrix) {
             return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
         }
 
+        public void configRobot() throws InterruptedException {
+            // Send telemetry message to signify robot waiting;
+            telemetry.addData("Status", "Resetting Encoders");
+            telemetry.update();
 
+            leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            idle();
+
+            leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+
+        public RelicRecoveryVuMark detectImage(RelicRecoveryVuMark vuMark, VuforiaTrackable relicTemplate) throws InterruptedException {
+            if(opModeIsActive()) {
+                vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            }
+            return vuMark;
+        }
     }
-
 }
