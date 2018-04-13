@@ -108,10 +108,10 @@ public class Lift extends LinearOpMode {
 
             //boolean statements for lift motors going up 2 inches
             if (liftTwo == true) {
-                /*leftLift.setPower(-0.5);
+                leftLift.setPower(-0.5);
                 rightLift.setPower(0.5);
-                sleep(500);*/
-                if(liftTwo == true) {
+                sleep(500);
+                /*if(liftTwo == true) {
                     int newLeftTarget, newRightTarget;
 
                     // Determine new target position, and pass to motor controller
@@ -125,7 +125,7 @@ public class Lift extends LinearOpMode {
                     // Turn On RUN_TO_POSITION
                     leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                }
+                }*/
             }
             else {
                 leftLift.setPower(0);
