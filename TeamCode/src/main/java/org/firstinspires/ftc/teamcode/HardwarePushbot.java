@@ -72,7 +72,7 @@ public class HardwarePushbot
     public static final double ARM_DOWN_POWER  = -0.45;
     //variables used for lift encoders
     public static final double COUNTS_PER_MOTOR_REV = 1120; // pulses per rotation on AndyMark NeveRest 40 Gearmotor Encoder
-    public static final double GEAR_DIAMETER = 3.1; // for finding circumference
+    public static final double GEAR_DIAMETER = 3.31; // for finding circumference, in cm
     public static final double COUNTS_PER_CM =  COUNTS_PER_MOTOR_REV / (GEAR_DIAMETER * Math.PI); // about 115 pulses per cm
 
 
@@ -125,8 +125,15 @@ public class HardwarePushbot
         leftTred.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightTred.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        //leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
 
 
 

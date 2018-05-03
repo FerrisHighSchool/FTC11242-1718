@@ -65,7 +65,6 @@ public class Lift extends LinearOpMode {
     private DcMotor leftLift = null;
     private DcMotor rightLift = null;
 
-    public static final double inches = 5.08; //equal to 2 inches
 
     @Override
     public void runOpMode() {
@@ -107,16 +106,21 @@ public class Lift extends LinearOpMode {
 
 
             //boolean statements for lift motors going up 2 inches
-            if (liftTwo == true) {
-                leftLift.setPower(-0.5);
-                rightLift.setPower(0.5);
-                sleep(500);
-                /*if(liftTwo == true) {
+            //if (liftTwo == true){
+                leftLift.isBusy();
+                rightLift.isBusy();
+                leftLift.setTargetPosition(500);
+                rightLift.setTargetPosition(500);
+                leftLift.setPower(0.5);
+                rightLift.setPower(-0.5);
+            //}
+
+                /*if (liftTwo == true) {
                     int newLeftTarget, newRightTarget;
 
                     // Determine new target position, and pass to motor controller
-                    newLeftTarget = leftLift.getCurrentPosition() + (int)(2 * (1120 / (9.73 *3.1415)));
-                    newRightTarget = rightLift.getCurrentPosition() + (int)(2 * (1120 / (9.73 * 3.1415)));
+                    newLeftTarget = leftLift.getCurrentPosition() + (int)(2 * (1120 / (3.31 * Math.PI)));
+                    newRightTarget = rightLift.getCurrentPosition() + (int)(2 * (1120 / (3.31 * Math.PI)));
 
                     // Set Target Position
                     leftLift.setTargetPosition(newLeftTarget);
@@ -126,11 +130,11 @@ public class Lift extends LinearOpMode {
                     leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 }*/
-            }
-            else {
-                leftLift.setPower(0);
-                rightLift.setPower(0);
-            }
+
+            //else {
+                //leftLift.setPower(0);
+                //rightLift.setPower(0);
+            //}
 
             //boolean for tread rotations
             if(treadsDown == true){
@@ -166,6 +170,7 @@ public class Lift extends LinearOpMode {
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+            telemetry.addData("Lift", "left (%d), right (%d)", leftLift.getCurrentPosition(), rightLift.getCurrentPosition());
             telemetry.update();
         }
     }
