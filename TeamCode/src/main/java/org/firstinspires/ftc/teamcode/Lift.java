@@ -58,12 +58,12 @@ public class Lift extends LinearOpMode {
 
     //private OpMode members
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftMotor = null;
-    private DcMotor rightMotor = null;
-    private DcMotor leftTred = null;
-    private DcMotor rightTred = null;
-    private DcMotor leftLift = null;
-    private DcMotor rightLift = null;
+    private DcMotor leftMotor = null; //AndyMark NeveRest 40
+    private DcMotor rightMotor = null; //AndyMark NeveRest 40
+    private DcMotor leftTred = null; //PITSCO TETRIX Motor
+    private DcMotor rightTred = null; //PITSCO TETRIX Motor
+    private DcMotor leftLift = null; //AndyMark NeveRest 40
+    private DcMotor rightLift = null; //AndyMark NeveRest 40
 
 
     @Override
@@ -78,13 +78,11 @@ public class Lift extends LinearOpMode {
         leftLift = hardwareMap.get(DcMotor.class, "left_lift");
         rightLift = hardwareMap.get(DcMotor.class, "right_lift");
 
-
         // Wait for the game to start
         waitForStart();
         runtime.reset();
 
         while (opModeIsActive()) {
-
 
             double leftPower;
             double rightPower;
@@ -93,9 +91,8 @@ public class Lift extends LinearOpMode {
             boolean liftOne;
             boolean liftTwo;
             boolean lowerAll;
-            int currentLeftPosition;
-            int currentRightPosition;
-
+            int leftCurrent;
+            int rightCurrent;
 
             double drive = -gamepad1.right_stick_x;
             double turn = gamepad1.left_stick_y;
@@ -104,38 +101,31 @@ public class Lift extends LinearOpMode {
             treadsUp = gamepad1.dpad_up;
             treadsDown = gamepad1.dpad_down;
 
-
-            //boolean statements for lift motors going up 2 inches
-            //if (liftTwo == true){
-                leftLift.isBusy();
-                rightLift.isBusy();
+            if (liftTwo == true){
+                //leftCurrent = leftLift.getCurrentPosition();
+                //rightCurrent = rightLift.getCurrentPosition();
+                //leftLift.setTargetPosition(leftCurrent + 500);
+                //rightLift.setTargetPosition(rightCurrent + 500);
                 leftLift.setTargetPosition(500);
                 rightLift.setTargetPosition(500);
-                leftLift.setPower(0.5);
-                rightLift.setPower(-0.5);
-            //}
-
-                /*if (liftTwo == true) {
-                    int newLeftTarget, newRightTarget;
-
-                    // Determine new target position, and pass to motor controller
-                    newLeftTarget = leftLift.getCurrentPosition() + (int)(2 * (1120 / (3.31 * Math.PI)));
-                    newRightTarget = rightLift.getCurrentPosition() + (int)(2 * (1120 / (3.31 * Math.PI)));
-
-                    // Set Target Position
-                    leftLift.setTargetPosition(newLeftTarget);
-                    rightLift.setTargetPosition(newRightTarget);
-
-                    // Turn On RUN_TO_POSITION
-                    leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                }*/
-
-            //else {
-                //leftLift.setPower(0);
-                //rightLift.setPower(0);
-            //}
-
+                leftLift.setPower(1);
+                rightLift.setPower(1);
+           /* }else if (liftTwo == false && leftLift.isBusy() == true){
+                leftLift.setTargetPosition(500);
+                rightLift.setTargetPosition(500);
+                leftLift.setPower(1);
+                rightLift.setPower(1);
+                liftTwo = false;
+            }else if (liftTwo == false && rightLift.isBusy() == true){
+                leftLift.setTargetPosition(500);
+                rightLift.setTargetPosition(500);
+                leftLift.setPower(1);
+                rightLift.setPower(1);
+                liftTwo = false;
+            */}else{
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+            }
             //boolean for tread rotations
             if(treadsDown == true){
                 leftTred.setPower(-1);
@@ -148,20 +138,6 @@ public class Lift extends LinearOpMode {
                 leftTred.setPower(0);
                 rightTred.setPower(0);
             }
-
-            //boolean for lowering lift motors
-            if (lowerAll == true) {
-                leftLift.setPower(0.5);
-                rightLift.setPower(-0.5);
-                sleep(500);
-            }
-            else {
-                leftLift.setPower(0);
-                rightLift.setPower(0);
-            }
-
-
-
             leftPower = Range.clip(drive + turn, -1.0, 1.0);//gage drive
             rightPower = Range.clip(drive - turn, -1.0, 1.0);//gage drive
 
@@ -170,7 +146,8 @@ public class Lift extends LinearOpMode {
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-            telemetry.addData("Lift", "left (%d), right (%d)", leftLift.getCurrentPosition(), rightLift.getCurrentPosition());
+            telemetry.addData("Lift Position", "left (%d), right (%d)", leftLift.getCurrentPosition(), rightLift.getCurrentPosition());
+            telemetry.addData("Lift Trigger",liftTwo);
             telemetry.update();
         }
     }

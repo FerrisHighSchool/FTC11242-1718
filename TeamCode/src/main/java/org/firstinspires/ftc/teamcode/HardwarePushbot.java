@@ -32,6 +32,8 @@ package org.firstinspires.ftc.teamcode;
  * Created by nerdxoverboard on 9/21/2017.
  */
 
+import android.hardware.Sensor;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -64,6 +66,7 @@ public class HardwarePushbot
     public DcMotor  leftTred = null;
     public DcMotor  rightTred = null;
     public DcMotor  rightLift = null;
+    public Sensor   colorSensor = null;
     /*public Servo  leftClaw    = null;
     public Servo    rightClaw   = null; */
 
@@ -125,23 +128,23 @@ public class HardwarePushbot
         leftTred.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightTred.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        leftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
         leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        //leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
 
         // Define and initialize ALL installed servos.
-        /* leftClaw  = hwMap.get(Servo.class, "left_hand");
+        /* leftClaw = hwMap.get(Servo.class, "left_hand");
         rightClaw = hwMap.get(Servo.class, "right_hand");
         leftClaw.setPosition(MID_SERVO);
         rightClaw.setPosition(MID_SERVO); */
+
+        // Define and initialize installed sensors.
+        colorSensor = hwMap.get(Sensor.class, "sensor_color");
     }
 }
 

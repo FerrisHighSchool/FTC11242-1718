@@ -79,6 +79,7 @@ public class ConceptRegisterOpModes
         //manager.register("Red: One",                AutonomousJ.class);
         manager.register("Tred",                Tred.class);
         manager.register("Lift",                Lift.class);
+
         //manager.register("AutonomousEyes",          AutonomousEyes.class);
         // manager.register("Iterative Opmode",       BasicOpMode_Iterative.class);
         // manager.register("Linear Opmode",          BasicOpMode_Linear.class);
@@ -102,7 +103,7 @@ public class ConceptRegisterOpModes
         // manager.register("HT Gyro",                SensorHTGyro.class);
         // manager.register("LEGO Light",             SensorLEGOLight.class);
         // manager.register("LEGO Touch",             SensorLEGOTouch.class);
-        // manager.register("MR Color",               SensorMRColor.class);
+        manager.register("MR Color",             ModernRoboticsColorSensor.class);
         // manager.register("MR Compass",             SensorMRCompass.class);
         // manager.register("MR Gyro",                SensorMRGyro.class);
         // manager.register("MR IR Seeker",           SensorMRIrSeeker.class);
