@@ -39,6 +39,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import java.*;
 
+import static org.firstinspires.ftc.teamcode.HardwarePushbot.MOTOR_TICKS;
+
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
  * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
@@ -88,11 +90,9 @@ public class Lift extends LinearOpMode {
             double rightPower;
             boolean treadsUp;
             boolean treadsDown;
-            boolean liftOne;
             boolean liftTwo;
             boolean lowerAll;
-            int leftCurrent;
-            int rightCurrent;
+            int total_ticks = 0; // Total number of ticks, used for lowerAll() method to lower tred
 
             double drive = -gamepad1.right_stick_x;
             double turn = gamepad1.left_stick_y;
@@ -101,40 +101,52 @@ public class Lift extends LinearOpMode {
             treadsUp = gamepad1.dpad_up;
             treadsDown = gamepad1.dpad_down;
 
-            if (liftTwo == true){
-                //leftCurrent = leftLift.getCurrentPosition();
-                //rightCurrent = rightLift.getCurrentPosition();
-                //leftLift.setTargetPosition(leftCurrent + 500);
-                //rightLift.setTargetPosition(rightCurrent + 500);
-                leftLift.setTargetPosition(500);
-                rightLift.setTargetPosition(500);
-                leftLift.setPower(1);
-                rightLift.setPower(1);
-           /* }else if (liftTwo == false && leftLift.isBusy() == true){
-                leftLift.setTargetPosition(500);
-                rightLift.setTargetPosition(500);
-                leftLift.setPower(1);
-                rightLift.setPower(1);
-                liftTwo = false;
-            }else if (liftTwo == false && rightLift.isBusy() == true){
-                leftLift.setTargetPosition(500);
-                rightLift.setTargetPosition(500);
-                leftLift.setPower(1);
-                rightLift.setPower(1);
-                liftTwo = false;
-            */}else{
+            // Button A is pressed
+            if (liftTwo){
+                while(leftLift.getCurrentPosition() != -MOTOR_TICKS) {
+                    // Add motor ticks for total
+                    total_ticks += MOTOR_TICKS;
+
+                    // Set Target Position to 1 revolution
+                    leftLift.setTargetPosition(-MOTOR_TICKS);
+                    rightLift.setTargetPosition(MOTOR_TICKS);
+
+                    leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                    // Set Power
+                    leftLift.setPower(-1);
+                    rightLift.setPower(1);
+                }
+                // Let while statement finish
+                idle();
+                // Set both motor power to 0
                 leftLift.setPower(0);
                 rightLift.setPower(0);
+
+                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                // Reset Encoders for every time button is pressed
+                leftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
+
+            // Button B is pressed
+            if(lowerAll) {
+                // Function lowers leftLift and rightLift motors
+                lowerAll(total_ticks);
+            }
+
             //boolean for tread rotations
-            if(treadsDown == true){
+            if(treadsDown){
                 leftTred.setPower(-1);
                 rightTred.setPower(1);
             }
-            else if(treadsUp == true){
+            else if(treadsUp){
                 leftTred.setPower(1);
                 rightTred.setPower(-1);
-            }else{
+            } else {
                 leftTred.setPower(0);
                 rightTred.setPower(0);
             }
@@ -147,8 +159,37 @@ public class Lift extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.addData("Lift Position", "left (%d), right (%d)", leftLift.getCurrentPosition(), rightLift.getCurrentPosition());
-            telemetry.addData("Lift Trigger",liftTwo);
+            telemetry.addData("","B Pressed: ", gamepad1.b);
+            telemetry.addData("", "");
             telemetry.update();
         }
+    }
+
+    // Function lowers both
+    public void lowerAll(int numTicks) {
+        while(leftLift.getCurrentPosition() != numTicks) {
+            // Set Target Position to 1 revolution
+            leftLift.setTargetPosition(numTicks);
+            rightLift.setTargetPosition(numTicks);
+
+            leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // Set Power
+            leftLift.setPower(1);
+            rightLift.setPower(-1);
+        }
+        // Let while statement finish
+        idle();
+        // Set both motor power to 0
+        leftLift.setPower(0);
+        rightLift.setPower(0);
+
+        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        // Reset Encoders for every time button is pressed
+        leftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 }

@@ -22,9 +22,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 // (c) 2017 - FTC Team 11242 - Error 451 - Ferris High School - Ferris, TX
-@Autonomous(name = "Red: One", group = "Concept")
+@Autonomous(name = "Red: Two", group = "Concept")
 //@Disabled <-- Keep commented unless this Opmode is not in use
-public class AutonomousJ extends LinearOpMode {
+public class AutonomousJVer2 extends LinearOpMode {
 
 
     DcMotor leftMotor,  // left drive wheel
@@ -46,16 +46,38 @@ public class AutonomousJ extends LinearOpMode {
         rightTred = hardwareMap.get(DcMotor.class, "right_tred");
         armShoulder = hardwareMap.get(Servo.class, "shoulder");
         armElbow = hardwareMap.get(Servo.class, "elbow");
-      // colorSensor = hardwareMap.get(ColorSensor.class, "sensor_color");
+        // colorSensor = hardwareMap.get(ColorSensor.class, "sensor_color");
 
         waitForStart();
 
         telemetry.addData("Status", "Driving");
         telemetry.update();
 
+        // Beginning Part 1 of Autonomous Mode
+
         while (opModeIsActive()) {
 
-            // Beginning Part 1 of Autonomous Mode
+            /*armElbow.setPosition(0.5); //0 is right side
+            sleep(250);
+            armShoulder.setPosition(0.75);
+            sleep(250);
+            armElbow.setPosition(1);
+            sleep(250);
+            armShoulder.setPosition(0.52); //0 is right side
+            sleep(350);
+            armShoulder.setPosition(0.37); //0 is right side
+            sleep(550);
+            armShoulder.setPosition(0.22); //0 is right side
+            sleep(800);
+            //colorSensor.enableLed(true);
+
+
+            armShoulder.setPosition(0.12); //0 is right side
+            sleep(1100);
+            armElbow.setPosition(0.75);
+            sleep(2500);*/
+
+
             leftMotor.setPower(-0.25); // drive forward at quarter speed
             rightMotor.setPower(0.25); // drive forward at quarter speed
             sleep(1250); // stop after one second
@@ -67,6 +89,14 @@ public class AutonomousJ extends LinearOpMode {
             sleep(1000); // stop after one second
             leftTred.setPower(0); // stop left tread
             rightTred.setPower(0); //stop right tread
+
+           /* sleep(5000);
+            armElbow.setPosition(1); //0 is right side
+            armShoulder.setPosition(0.5); //0 is right side
+            armShoulder.setPosition(1);
+            sleep(150);
+            armElbow.setPosition(0);
+            sleep(25000);*/
         }
     }
 

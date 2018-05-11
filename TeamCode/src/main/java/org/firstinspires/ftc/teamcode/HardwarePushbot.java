@@ -60,25 +60,30 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class HardwarePushbot
 {
     /* Public OpMode members. */
-    public DcMotor  leftMotor = null;
-    public DcMotor  leftLift = null;
-    public DcMotor  rightMotor = null;
-    public DcMotor  leftTred = null;
-    public DcMotor  rightTred = null;
-    public DcMotor  rightLift = null;
+    public DcMotor  leftMotor   = null;
+    public DcMotor  leftLift    = null;
+    public DcMotor  rightMotor  = null;
+    public DcMotor  leftTred    = null;
+    public DcMotor  rightTred   = null;
+    public DcMotor  rightLift   = null;
     public Sensor   colorSensor = null;
-    /*public Servo  leftClaw    = null;
-    public Servo    rightClaw   = null; */
+    public Servo    armShoulder = null;
+    public Servo    armElbow    = null;  
 
-    public static final double MID_SERVO       =  0.5;
-    public static final double ARM_UP_POWER    =  0.45;
-    public static final double ARM_DOWN_POWER  = -0.45;
-    //variables used for lift encoders
-    public static final double COUNTS_PER_MOTOR_REV = 1120; // pulses per rotation on AndyMark NeveRest 40 Gearmotor Encoder
-    public static final double GEAR_DIAMETER = 3.31; // for finding circumference, in cm
-    public static final double COUNTS_PER_CM =  COUNTS_PER_MOTOR_REV / (GEAR_DIAMETER * Math.PI); // about 115 pulses per cm
+    //static variables used for servos
+    public static final int SERVO_START     =  1;
+    public static final int SERVO_END       =  0;
+    public static final double MID_SERVO    =  0.5;
+    public static final double ARM_UP       =  0.45;
+    public static final double ARM_DOWN     = -0.45;
+    public static final double ELBOW_UP     = -0.45;
+    public static final double ELBOW_DOWN   = -0.45;
 
+    //static variables used for motors in general
+    static final double COUNTS_PER_MOTOR_REV = 1120;  // For NeveRest 40 Gearmotor Encoder
 
+    // static variables used for lift system
+    public static final int MOTOR_TICKS = 550; // pulses per rotation on AndyMark NeveRest 40 Gearmotor Encoder
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -95,12 +100,12 @@ public class HardwarePushbot
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftMotor = hwMap.get(DcMotor.class, "left_drive");
-        rightMotor = hwMap.get(DcMotor.class, "right_drive");
-        leftTred = hwMap.get(DcMotor.class, "left_tred");
-        rightTred = hwMap.get(DcMotor.class, "right_tred");
-        leftLift = hwMap.get(DcMotor.class, "left_lift");
-        rightLift = hwMap.get(DcMotor.class, "right_lift");
+        leftMotor   = hwMap.get(DcMotor.class, "left_drive");
+        rightMotor  = hwMap.get(DcMotor.class, "right_drive");
+        leftTred    = hwMap.get(DcMotor.class, "left_tred");
+        rightTred   = hwMap.get(DcMotor.class, "right_tred");
+        leftLift    = hwMap.get(DcMotor.class, "left_lift");
+        rightLift   = hwMap.get(DcMotor.class, "right_lift");
 
         // Set Direction for Motors
         leftMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
@@ -134,14 +139,11 @@ public class HardwarePushbot
         leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-
-
-
         // Define and initialize ALL installed servos.
-        /* leftClaw = hwMap.get(Servo.class, "left_hand");
-        rightClaw = hwMap.get(Servo.class, "right_hand");
-        leftClaw.setPosition(MID_SERVO);
-        rightClaw.setPosition(MID_SERVO); */
+        armShoulder = hwMap.get(Servo.class, "shoulder");
+        armElbow = hwMap.get(Servo.class, "elbow");
+        armShoulder.setPosition(SERVO_START);
+        //armElbow.setPosition(MID_SERVO);
 
         // Define and initialize installed sensors.
         colorSensor = hwMap.get(Sensor.class, "sensor_color");
