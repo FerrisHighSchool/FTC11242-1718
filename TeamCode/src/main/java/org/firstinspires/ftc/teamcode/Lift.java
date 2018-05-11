@@ -92,7 +92,6 @@ public class Lift extends LinearOpMode {
             boolean treadsDown;
             boolean liftTwo;
             boolean lowerAll;
-            int total_ticks = 0; // Total number of ticks, used for lowerAll() method to lower tred
 
             double drive = -gamepad1.right_stick_x;
             double turn = gamepad1.left_stick_y;
@@ -103,21 +102,21 @@ public class Lift extends LinearOpMode {
 
             // Button A is pressed
             if (liftTwo){
-                while(leftLift.getCurrentPosition() != -MOTOR_TICKS) {
-                    // Add motor ticks for total
-                    total_ticks += MOTOR_TICKS;
+                    while(leftLift.getCurrentPosition() != -MOTOR_TICKS) {
+                        // Add motor ticks for total
+                        total_ticks += MOTOR_TICKS;
 
-                    // Set Target Position to 1 revolution
-                    leftLift.setTargetPosition(-MOTOR_TICKS);
-                    rightLift.setTargetPosition(MOTOR_TICKS);
+                        // Set Target Position to 1 revolution
+                        leftLift.setTargetPosition(-MOTOR_TICKS);
+                        rightLift.setTargetPosition(MOTOR_TICKS);
 
-                    leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                    // Set Power
-                    leftLift.setPower(-1);
-                    rightLift.setPower(1);
-                }
+                        // Set Power
+                        leftLift.setPower(-1);
+                        rightLift.setPower(1);
+                    }
                 // Let while statement finish
                 idle();
                 // Set both motor power to 0

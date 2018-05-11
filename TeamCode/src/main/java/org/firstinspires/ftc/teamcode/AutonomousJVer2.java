@@ -21,6 +21,8 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import static org.firstinspires.ftc.teamcode.HardwarePushbot.MOTOR_TICKS;
+
 // (c) 2017 - FTC Team 11242 - Error 451 - Ferris High School - Ferris, TX
 @Autonomous(name = "Red: Two", group = "Concept")
 //@Disabled <-- Keep commented unless this Opmode is not in use
@@ -40,13 +42,13 @@ public class AutonomousJVer2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        leftMotor  = hardwareMap.get(DcMotor.class, "left_drive");
-        rightMotor = hardwareMap.get(DcMotor.class, "right_drive");
-        leftTred = hardwareMap.get(DcMotor.class, "left_tred");
-        rightTred = hardwareMap.get(DcMotor.class, "right_tred");
+        leftMotor   = hardwareMap.get(DcMotor.class, "left_drive");
+        rightMotor  = hardwareMap.get(DcMotor.class, "right_drive");
+        leftTred    = hardwareMap.get(DcMotor.class, "left_tred");
+        rightTred   = hardwareMap.get(DcMotor.class, "right_tred");
         armShoulder = hardwareMap.get(Servo.class, "shoulder");
-        armElbow = hardwareMap.get(Servo.class, "elbow");
-        // colorSensor = hardwareMap.get(ColorSensor.class, "sensor_color");
+        armElbow    = hardwareMap.get(Servo.class, "elbow");
+        colorSensor = hardwareMap.get(ColorSensor.class, "sensor_color");
 
         waitForStart();
 
@@ -68,17 +70,36 @@ public class AutonomousJVer2 extends LinearOpMode {
             armShoulder.setPosition(0.37); //0 is right side
             sleep(550);
             armShoulder.setPosition(0.22); //0 is right side
-            sleep(800);
-            //colorSensor.enableLed(true);
+            sleep(800);*/
+
+            colorSensor.enableLed(true);
+
+            if (colorSensor.blue() > colorSensor.red()){
+                while(leftMotor.getCurrentPosition() != -MOTOR_TICKS) {
+                    // Add motor ticks for total
+                    total_ticks += MOTOR_TICKS;
+
+                    // Set Target Position to 1 revolution
+                    leftLift.setTargetPosition(-MOTOR_TICKS);
+                    rightLift.setTargetPosition(MOTOR_TICKS);
+
+                    leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                    // Set Power
+                    leftLift.setPower(-1);
+                    rightLift.setPower(1);
+            }
 
 
-            armShoulder.setPosition(0.12); //0 is right side
+
+            /*armShoulder.setPosition(0.12); //0 is right side
             sleep(1100);
             armElbow.setPosition(0.75);
             sleep(2500);*/
 
 
-            leftMotor.setPower(-0.25); // drive forward at quarter speed
+            /*leftMotor.setPower(-0.25); // drive forward at quarter speed
             rightMotor.setPower(0.25); // drive forward at quarter speed
             sleep(1250); // stop after one second
             leftMotor.setPower(0); // stop left motor
@@ -88,7 +109,7 @@ public class AutonomousJVer2 extends LinearOpMode {
             rightTred.setPower(0.25); // treads move up at quarter speed
             sleep(1000); // stop after one second
             leftTred.setPower(0); // stop left tread
-            rightTred.setPower(0); //stop right tread
+            rightTred.setPower(0); //stop right tread*/
 
            /* sleep(5000);
             armElbow.setPosition(1); //0 is right side
