@@ -59,7 +59,7 @@ public class AutonomousJVer2 extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            /*armElbow.setPosition(0.5); //0 is right side
+            armElbow.setPosition(0.5); //0 is right side
             sleep(250);
             armShoulder.setPosition(0.75);
             sleep(250);
@@ -70,8 +70,8 @@ public class AutonomousJVer2 extends LinearOpMode {
             armShoulder.setPosition(0.37); //0 is right side
             sleep(550);
             armShoulder.setPosition(0.22); //0 is right side
-            sleep(800);*/
-
+            sleep(800);
+/*
             colorSensor.enableLed(true);
 
             if (colorSensor.blue() > colorSensor.red()){
@@ -90,13 +90,14 @@ public class AutonomousJVer2 extends LinearOpMode {
                     leftLift.setPower(-1);
                     rightLift.setPower(1);
             }
+            */
 
 
 
-            /*armShoulder.setPosition(0.12); //0 is right side
+            armShoulder.setPosition(0.12); //0 is right side
             sleep(1100);
             armElbow.setPosition(0.75);
-            sleep(2500);*/
+            sleep(2500);
 
 
             /*leftMotor.setPower(-0.25); // drive forward at quarter speed

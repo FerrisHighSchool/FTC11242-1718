@@ -95,6 +95,7 @@ public class Lift extends LinearOpMode {
 
             double drive = -gamepad1.right_stick_x;
             double turn = gamepad1.left_stick_y;
+            int total_ticks = 0;
             liftTwo = gamepad1.a;
             lowerAll = gamepad1.b;
             treadsUp = gamepad1.dpad_up;
