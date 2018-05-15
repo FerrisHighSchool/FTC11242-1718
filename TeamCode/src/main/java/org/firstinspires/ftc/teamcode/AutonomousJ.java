@@ -74,8 +74,8 @@ public class AutonomousJ extends LinearOpMode {
         leftMotor.setPower(0); // stop left motor
         rightMotor.setPower(0); // stop right motor
 
-        leftTred.setPower(-0.25); //  treads move up at quarter speed
-        rightTred.setPower(0.25); // treads move up at quarter speed
+        leftTred.setPower(0.25); //  treads move up at quarter speed
+        rightTred.setPower(-0.25); // treads move up at quarter speed
         sleep(1000); // stop after one second
         leftTred.setPower(0); // stop left tread
         rightTred.setPower(0); //stop right tread
