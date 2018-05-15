@@ -107,7 +107,7 @@ public class ConceptVuMarkIdentification extends LinearOpMode {
 
         /*
          * We also indicate which camera on the RC that we wish to use.
-         * Here we chose the back (HiRes) camera (for greater range), but
+         * Here we chose the back (HiRes) camera (for greater range, but
          * for a competition robot, the front camera might be more convenient.
          */
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
