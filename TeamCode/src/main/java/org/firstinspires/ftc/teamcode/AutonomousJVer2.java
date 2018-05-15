@@ -23,7 +23,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import static org.firstinspires.ftc.teamcode.HardwarePushbot.MOTOR_TICKS;
 
-// (c) 2017 - FTC Team 11242 - error 451 - Ferris High School - Ferris, TX
+// (c) 2017 - FTC Team 11242 - Error 451 - Ferris High School - Ferris, TX
 @Autonomous(name = "Red: Two", group = "Concept")
 //@Disabled <-- Keep commented unless this Opmode is not in use
 public class AutonomousJVer2 extends LinearOpMode {
